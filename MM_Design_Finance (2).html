@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f2efe2">
+<title>MM_Design Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<!-- PWA -->
+<script>
+(function(){
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#697C70" rx="110"/><text x="256" y="300" font-family="serif" font-size="200" font-weight="700" fill="#F2EFE2" text-anchor="middle">MM</text></svg>';
+  var ib=new Blob([svg],{type:'image/svg+xml'});var iu=URL.createObjectURL(ib);
+  var l=document.createElement('link');l.rel='apple-touch-icon';l.href=iu;document.head.appendChild(l);
+  var mf={name:'MM_Design Finance',short_name:'MM_Design',display:'standalone',background_color:'#f2efe2',theme_color:'#697C70',orientation:'portrait-primary',icons:[{src:iu,sizes:'512x512',type:'image/svg+xml'}]};
+  var mb=new Blob([JSON.stringify(mf)],{type:'application/manifest+json'});
+  var ml=document.createElement('link');ml.rel='manifest';ml.href=URL.createObjectURL(mb);document.head.appendChild(ml);
+  if('serviceWorker' in navigator){
+    var sw="self.addEventListener('install',function(e){self.skipWaiting();});self.addEventListener('activate',function(e){e.waitUntil(clients.claim());});self.addEventListener('fetch',function(e){if(e.request.url.startsWith('blob:'))return;e.respondWith(fetch(e.request).catch(function(){return caches.match(e.request);}));});";
+    navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/javascript'}))).catch(function(){});
+  }
+})();
+</script>
+<style>
+:root{
+  --plaster:#F2EFE2;--eucal:#98AA9D;--mist:#B3C9D6;--soot:#2D3536;--moss:#697C70;
+  --bg:var(--plaster);--surface:#FFFFFF;--surface2:#EBE8DC;--surface3:#E0DDD5;
+  --border:rgba(45,53,54,0.1);--border2:rgba(45,53,54,0.18);
+  --text:var(--soot);--text2:rgba(45,53,54,0.55);--text3:rgba(45,53,54,0.35);
+  --green:var(--moss);--green-dim:rgba(105,124,112,0.12);
+  --blue:var(--mist);--blue-dim:rgba(179,201,214,0.25);
+  --sage:var(--eucal);--sage-dim:rgba(152,170,157,0.18);
+  --red:#B85C5C;--red-dim:rgba(184,92,92,0.12);
+  --amber:#A08040;--amber-dim:rgba(160,128,64,0.12);
+  --r:14px;--rsm:9px;--rlg:18px;
+  --safe:env(safe-area-inset-bottom,0px);
+  --shadow:0 2px 12px rgba(45,53,54,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{width:0;height:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;overscroll-behavior:none}
+.app{display:flex;flex-direction:column;height:100%;max-width:480px;margin:0 auto}
+/* HDR */
+.hdr{padding:52px 20px 0;background:var(--bg);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
+.hdr-row{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-ico{width:34px;height:34px;background:var(--moss);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--plaster);letter-spacing:.5px}
+.logo-name{font-size:19px;font-weight:800;color:var(--soot);letter-spacing:-.4px}
+.logo-sub{font-size:10px;color:var(--text2);font-weight:400;letter-spacing:.04em;margin-top:-1px}
+.yr-sw{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:100px;overflow:hidden;box-shadow:var(--shadow)}
+.yr-btn{background:none;border:none;color:var(--text2);padding:6px 11px;cursor:pointer;font-size:15px;line-height:1}
+.yr-lbl{font-size:11px;font-weight:600;color:var(--text);font-family:'JetBrains Mono',monospace;min-width:38px;text-align:center}
+.nav-tabs{display:flex;gap:4px;padding:10px 0;overflow-x:auto;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.ntb{flex-shrink:0;padding:7px 16px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.ntb.on{background:var(--moss);color:var(--plaster);border-color:var(--moss);font-weight:700}
+.back-row{display:flex;align-items:center;gap:10px;padding-bottom:12px}
+.back-btn{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rsm);color:var(--text2);padding:7px 13px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer}
+.back-title{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.3px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:16px 20px calc(20px + var(--safe));display:flex;flex-direction:column;gap:14px}
+.screen{display:none;flex-direction:column;gap:14px}
+.screen.on{display:flex}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:14px 16px;box-shadow:var(--shadow)}
+.kpi.hot{background:var(--moss);border-color:var(--moss)}
+.kpi-lbl{font-size:10px;font-weight:700;color:var(--text2);letter-spacing:.09em;text-transform:uppercase;margin-bottom:6px}
+.kpi.hot .kpi-lbl{color:rgba(242,239,226,0.65)}
+.kpi-val{font-size:19px;font-weight:700;color:var(--text);font-family:'JetBrains Mono',monospace;letter-spacing:-.5px;line-height:1.1}
+.kpi.hot .kpi-val{color:var(--plaster)}
+.kpi-sub{font-size:10px;color:var(--text3);margin-top:5px;font-family:'JetBrains Mono',monospace}
+.kpi.hot .kpi-sub{color:rgba(242,239,226,0.45)}
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:18px;box-shadow:var(--shadow)}
+.card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-ttl{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.1em;text-transform:uppercase}
+.card-act{font-size:11px;color:var(--moss);font-weight:600;cursor:pointer;background:var(--green-dim);padding:5px 12px;border-radius:100px;border:1px solid rgba(105,124,112,0.25);font-family:'Outfit',sans-serif;transition:all .15s}
+.card-act:active{background:rgba(105,124,112,0.22)}
+.card-act.danger{color:var(--red);background:var(--red-dim);border-color:rgba(184,92,92,0.25)}
+.slbl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+/* PROJECT CARD */
+.proj-list{display:flex;flex-direction:column;gap:10px}
+.pd{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:16px 18px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.pd:active{background:var(--surface2)}
+.pd.st-active{border-left:3px solid var(--moss)}
+.pd.st-completed{border-left:3px solid var(--mist)}
+.pd.st-hold{border-left:3px solid var(--eucal)}
+.pd-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.pd-info{flex:1;min-width:0;padding-left:8px}
+.pd-name{font-size:16px;font-weight:700;color:var(--soot);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.3px}
+.pd-client{font-size:11px;color:var(--text2);margin-top:2px}
+.pd-meta{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:3px}
+.pd-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;margin-left:10px}
+.pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid;white-space:nowrap;letter-spacing:.04em}
+.pill-moss{color:var(--moss);border-color:rgba(105,124,112,0.3);background:var(--green-dim)}
+.pill-mist{color:#5a7d94;border-color:rgba(179,201,214,0.5);background:var(--blue-dim)}
+.pill-sage{color:#5a7060;border-color:rgba(152,170,157,0.4);background:var(--sage-dim)}
+.pd-profit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
+.pd-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding-top:10px;border-top:1px solid var(--border)}
+.pn-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-bottom:2px}
+.pn-val{font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.pn-g{color:var(--moss)}.pn-r{color:var(--red)}.pn-a{color:var(--amber)}.pn-b{color:#5a7d94}
+/* PROG */
+.prog{margin-top:10px}
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.prog-lbl{font-size:9px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.prog-pct{font-size:10px;color:var(--moss);font-weight:600;font-family:'JetBrains Mono',monospace}
+.prog-bar{height:3px;background:var(--border);border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:var(--moss)}
+.prog-fill.over{background:var(--red)}
+/* LEGEND */
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.leg-dot{width:8px;height:8px;border-radius:2px}
+/* TX */
+.tx-list{display:flex;flex-direction:column}
+.tx{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.tx:last-child{border-bottom:none;padding-bottom:0}
+.tx-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.tx-ico.i{background:var(--green-dim)}
+.tx-ico.e{background:var(--red-dim)}
+.tx-ico.a{background:var(--amber-dim)}
+.tx-ico.l{background:var(--blue-dim)}
+.tx-body{flex:1;min-width:0}
+.tx-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-sub{font-size:10px;color:var(--text2);margin-top:1px;font-family:'JetBrains Mono',monospace}
+.tx-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.tx-amt{font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.tx-amt.i{color:var(--moss)}.tx-amt.e{color:var(--red)}.tx-amt.a{color:var(--amber)}
+.tx-del{background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;padding:2px 4px;transition:color .15s}
+.tx-del:active{color:var(--red)}
+.empty{text-align:center;color:var(--text3);font-size:12px;padding:24px 0;font-family:'JetBrains Mono',monospace;font-style:italic}
+/* FORM */
+.form-sec{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:18px;box-shadow:var(--shadow)}
+.form-ttl{font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:-.1px;text-transform:uppercase;letter-spacing:.06em}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.frow.full{grid-template-columns:1fr}
+.frow.three{grid-template-columns:1fr 1fr 1fr}
+.fl{display:flex;flex-direction:column;gap:3px}
+.fl label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase}
+input,select,textarea{width:100%;padding:10px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--rsm);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;appearance:none;-webkit-appearance:none;transition:border-color .15s}
+textarea{resize:vertical;min-height:56px}
+input::placeholder,textarea::placeholder{color:var(--text3)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--moss);background:var(--surface)}
+.sbtn{width:100%;padding:13px;background:var(--moss);border:none;border-radius:var(--rsm);color:var(--plaster);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;letter-spacing:.02em;transition:background .15s}
+.sbtn:active{background:#5a6b61}
+select option{background:#fff;color:var(--soot)}
+/* SERVICES GRID */
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.svc-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:11px 12px;display:flex;flex-direction:column;gap:8px;transition:all .15s}
+.svc-item.on{border-color:rgba(105,124,112,0.4);background:rgba(105,124,112,0.06)}
+.svc-chk-row{display:flex;align-items:center;gap:8px}
+.svc-chk{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all .15s}
+.svc-chk.on{background:var(--moss);border-color:var(--moss);color:var(--plaster)}
+.svc-item-name{font-size:12px;font-weight:600;color:var(--text)}
+.svc-price-wrap{display:flex;align-items:center;gap:5px}
+.svc-price-input{padding:6px 8px;font-size:12px;min-width:0}
+.svc-price-unit{font-size:10px;color:var(--text3);white-space:nowrap}
+/* SERVICES TABLE in detail */
+.svc-table{width:100%;border-collapse:collapse}
+.svc-table th{text-align:left;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:0 0 8px;border-bottom:1px solid var(--border)}
+.svc-table th:last-child{text-align:right}
+.svc-table td{padding:8px 0;border-bottom:1px solid var(--border);vertical-align:middle;font-size:12px}
+.svc-table tr:last-child td{border-bottom:none}
+.svc-total-cell{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--moss)}
+/* SALARY */
+.emp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:16px;margin-bottom:10px;position:relative;box-shadow:var(--shadow)}
+.emp-photo{width:56px;height:56px;border-radius:14px;object-fit:cover;flex-shrink:0}
+.emp-photo-placeholder{width:56px;height:56px;border-radius:14px;background:var(--moss);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:var(--plaster);flex-shrink:0}
+.emp-proj-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.emp-proj-row:last-child{border-bottom:none;padding-bottom:0}
+.emp-proj-name{color:var(--text2);font-weight:500;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:8px}
+.emp-proj-amt{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--moss);font-size:12px}
+.emp-card:last-child{margin-bottom:0}
+.emp-avatar{width:36px;height:36px;border-radius:10px;background:var(--moss);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--plaster);margin-bottom:8px;display:none}
+.emp-name{font-size:14px;font-weight:700;color:var(--text)}
+.emp-role{font-size:10px;color:var(--moss);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.emp-loc{font-size:11px;color:var(--text2);margin-top:3px}
+.emp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;border-top:1px solid var(--border);padding-top:10px;margin-top:8px}
+.eg-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-bottom:2px}
+.eg-val{font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--text)}
+.emp-edit-btn{position:absolute;top:12px;right:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rsm);color:var(--text2);font-size:11px;padding:4px 10px;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:500}
+/* WP */
+.wp-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:16px;box-shadow:var(--shadow)}
+.wp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.wp-title{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.1em;text-transform:uppercase}
+.wp-edit-btn{font-size:11px;color:var(--moss);font-weight:600;cursor:pointer;background:var(--green-dim);padding:4px 12px;border-radius:100px;border:1px solid rgba(105,124,112,0.25);font-family:'Outfit',sans-serif}
+.days-badge{display:inline-flex;align-items:center;gap:4px;background:var(--green-dim);border:1px solid rgba(105,124,112,0.25);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--moss);font-family:'JetBrains Mono',monospace}
+.wp-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.wp-stat-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;font-weight:600;letter-spacing:.07em;margin-bottom:2px}
+.wp-stat-val{font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text)}
+/* OWNER SALARY MONTHS */
+.owner-months{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.owner-m{border-radius:var(--r);padding:10px 6px;text-align:center;cursor:pointer;transition:all .18s;border:1.5px solid var(--border);background:var(--surface2);user-select:none;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.owner-m:active{opacity:.75}
+.owner-m.paid{border-color:rgba(105,124,112,0.5);background:rgba(105,124,112,0.1)}
+.owner-m.future{opacity:0.35;cursor:default}
+.owner-m-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:4px}
+.owner-m.paid .owner-m-lbl{color:var(--moss)}
+.owner-m-amt{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text3)}
+.owner-m.paid .owner-m-amt{color:var(--moss);font-size:14px}
+.owner-m.future .owner-m-lbl,.owner-m.future .owner-m-amt{color:var(--text3)}
+.yr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.yr-m{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center}
+.yr-m.has{border-color:rgba(105,124,112,0.3);background:var(--surface)}
+.yr-m-lbl{font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.yr-m-val{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.pos{color:var(--moss)}.neg{color:var(--red)}.zero{color:var(--text3)}
+/* MINI KPI */
+.mkpi{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px}
+.mkpi-lbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.mkpi-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700}
+.mkpi-sub{font-size:10px;color:var(--text3);margin-top:3px}
+/* COST BAR */
+.cost-bar-wrap{margin-top:12px}
+.cost-bar-track{display:flex;height:6px;border-radius:100px;overflow:hidden;gap:1px}
+.cost-bar-leg{display:flex;gap:12px;margin-top:6px;flex-wrap:wrap}
+.cost-bar-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text2)}
+.cost-dot{width:7px;height:7px;border-radius:2px}
+/* INFO CARD */
+.info-card{background:linear-gradient(135deg,rgba(105,124,112,0.08),rgba(179,201,214,0.1));border:1px solid rgba(105,124,112,0.2);border-radius:var(--rlg);padding:16px}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-svc-name{font-size:13px;font-weight:500;color:var(--text)}
+.info-svc-price{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--moss)}
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(45,53,54,0.5);z-index:300;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.modal-bg.open{display:flex;animation:fi .18s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.modal{background:var(--plaster);border-radius:var(--rlg) var(--rlg) 0 0;padding:22px 20px calc(24px + var(--safe));width:100%;max-width:480px;animation:su .24s cubic-bezier(.34,1.1,.64,1);max-height:88vh;overflow-y:auto;border-top:1px solid var(--border)}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-ttl{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.3px}
+.modal-x{background:var(--surface2);border:1px solid var(--border);border-radius:9px;color:var(--text2);width:30px;height:30px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mfrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mfrow.full{grid-template-columns:1fr}
+.mfrow.three{grid-template-columns:1fr 1fr 1fr}
+.modal-hint{font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6;padding:10px 12px;background:var(--surface2);border-radius:var(--rsm)}
+.modal-save{width:100%;padding:13px;background:var(--moss);border:none;border-radius:var(--rsm);color:var(--plaster);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;letter-spacing:.02em}
+.modal-save:active{background:#5a6b61}
+.modal-del{width:100%;padding:11px;background:none;border:1px solid rgba(184,92,92,0.3);border-radius:var(--rsm);color:var(--red);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+.section-divider{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:8px 0 4px;border-top:1px solid var(--border);margin-top:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-row">
+    <div class="logo">
+      <div class="logo-ico">MM</div>
+      <div><div class="logo-name">MM_Design</div><div class="logo-sub">Finance Studio</div></div>
+    </div>
+    <button onclick="openSyncModal()" style="background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:6px 10px;display:flex;align-items:center;gap:5px;cursor:pointer;box-shadow:var(--shadow)"><span id="sync-status" style="font-size:14px;color:var(--text3);line-height:1;transition:color .3s">☁</span><span style="font-size:10px;font-weight:600;color:var(--text2)">Sync</span></button><div class="yr-sw">
+      <button class="yr-btn" onclick="shiftYear(-1)">&#8249;</button>
+      <span class="yr-lbl" id="yr-lbl">2026</span>
+      <button class="yr-btn" onclick="shiftYear(1)">&#8250;</button>
+    </div>
+  </div>
+  <div class="nav-tabs" id="nav-tabs">
+    <button class="ntb on" onclick="goTo('dash')">Dashboard</button>
+    <button class="ntb" onclick="goTo('projects')">Projects</button>
+    <button class="ntb" onclick="goTo('salary')">Team</button>
+    <button class="ntb" onclick="goTo('report')">Reports</button>
+  </div>
+  <div class="back-row" id="back-row" style="display:none">
+    <button class="back-btn" onclick="closeProject()">&#8592; Назад</button>
+    <span class="back-title" id="proj-hdr-name"></span>
+  </div>
+</div>
+<div class="content">
+
+<!-- DASH -->
+<div class="screen on" id="screen-dash">
+  <div class="kpi-grid" id="dash-kpis"></div>
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-ttl">Cash Flow</span>
+      <span id="dash-yr" style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace"></span>
+    </div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:var(--moss)"></div>Поступления</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--red)"></div>Расходы</div>
+    </div>
+    <div style="position:relative;height:160px"><canvas id="barChart"></canvas></div>
+  </div>
+  <div class="slbl">Проекты</div>
+  <div class="proj-list" id="dash-proj-list"></div>
+</div>
+
+<!-- PROJECTS -->
+<div class="screen" id="screen-projects">
+  <div class="form-sec">
+    <div class="form-ttl">New Project</div>
+    <div class="frow">
+      <div class="fl"><label>Name</label><input type="text" id="p-name" placeholder="Project name"></div>
+      <div class="fl"><label>Client</label><input type="text" id="p-client" placeholder="Client"></div>
+    </div>
+    <div class="frow three">
+      <div class="fl"><label>Area, m²</label><input type="number" id="p-area" inputmode="decimal" placeholder="0"></div>
+      <div class="fl"><label>Start</label><input type="date" id="p-start"></div>
+      <div class="fl"><label>Deadline</label><input type="date" id="p-deadline"></div>
+    </div>
+    <div class="frow">
+      <div class="fl"><label>Status</label>
+        <select id="p-status"><option value="active">Active</option><option value="completed">Completed</option><option value="hold">On Hold</option></select>
+      </div>
+      <div class="fl"><label>Note</label><input type="text" id="p-note" placeholder="Additional info"></div>
+    </div>
+    <div class="section-divider">Services & price per m²</div>
+    <div class="svc-grid" id="new-svc-list" style="margin-top:8px"></div>
+    <button class="sbtn" onclick="addProject()">Add Project</button>
+  </div>
+  <div class="slbl">All Projects</div>
+  <div class="proj-list" id="all-proj-list"></div>
+</div>
+
+<!-- PROJECT DETAIL -->
+<div class="screen" id="screen-proj-detail"></div>
+
+<!-- SALARY / TEAM -->
+<div class="screen" id="screen-salary">
+  <div class="kpi-grid" id="sal-studio-kpis"></div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-ttl">Team</span><button class="card-act" onclick="openAddEmpModal()">+ Add</button></div>
+    <div id="emp-list"></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-ttl">Monthly Payroll</span></div>
+    <div class="legend" id="sal-legend"></div>
+    <div style="position:relative;height:160px"><canvas id="salChart"></canvas></div>
+  </div>
+</div>
+
+<!-- REPORT -->
+<div class="screen" id="screen-report">
+  <div class="kpi-grid" id="rep-kpis"></div>
+  <div class="card" id="owner-sal-card">
+    <div class="card-hdr">
+      <span class="card-ttl">Manager Salary</span>
+      
+    </div>
+    <div id="owner-sal-months"></div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:11px;color:var(--text2);font-weight:500">Paid this year</span>
+      <span id="owner-sal-total" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:var(--moss)">0 AED</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-ttl">Studio Income & Expenses</span></div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:var(--moss)"></div>Доходы</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--red)"></div>Расходы (без зарплат)</div>
+    </div>
+    <div style="position:relative;height:160px"><canvas id="repChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-ttl">Projects Summary</span></div>
+    <div class="tx-list" id="rep-projs"></div>
+  </div>
+  <div class="info-card">
+    <div class="card-hdr" style="margin-bottom:12px"><span class="card-ttl">Service Price List</span></div>
+    <div id="rep-price-list"></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /app -->
+
+<!-- MODALS -->
+
+<!-- Edit Project -->
+<div class="modal-bg" id="m-edit-proj" onclick="overlayClick(event,'m-edit-proj')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Edit Project</span><button class="modal-x" onclick="closeMod('m-edit-proj')">✕</button></div>
+  <div class="mfrow full"><div class="fl"><label>Name</label><input type="text" id="ep-name"></div></div>
+  <div class="mfrow full"><div class="fl"><label>Client</label><input type="text" id="ep-client"></div></div>
+  <div class="mfrow three">
+    <div class="fl"><label>Area m²</label><input type="number" id="ep-area" inputmode="decimal"></div>
+    <div class="fl"><label>Start</label><input type="date" id="ep-start"></div>
+    <div class="fl"><label>Deadline</label><input type="date" id="ep-deadline"></div>
+  </div>
+  <div class="mfrow full"><div class="fl"><label>Status</label><select id="ep-status"><option value="active">Active</option><option value="completed">Completed</option><option value="hold">On Hold</option></select></div></div>
+  <div class="mfrow full"><div class="fl"><label>Note</label><input type="text" id="ep-note"></div></div>
+  <div class="section-divider">Services & price per m²</div>
+  <div class="svc-grid" id="edit-svc-list" style="margin-top:8px"></div>
+  <button class="modal-save" onclick="saveEditProj()">Save</button>
+  <button class="modal-del" onclick="deleteProjConfirm()">Delete Project</button>
+</div>
+</div>
+
+<!-- Add Income -->
+<div class="modal-bg" id="m-add-inc" onclick="overlayClick(event,'m-add-inc')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Payment Received</span><button class="modal-x" onclick="closeMod('m-add-inc')">✕</button></div>
+  <div class="modal-hint">Actual client payment (advance, stage, final)</div>
+  <div class="mfrow"><div class="fl"><label>Date</label><input type="date" id="mi-date"></div><div class="fl"><label>Amount (AED)</label><input type="number" id="mi-amount" inputmode="decimal" placeholder="0"></div></div>
+  <div class="mfrow full"><div class="fl"><label>Description</label><input type="text" id="mi-desc" placeholder="Advance 30%, stage 1..."></div></div>
+  <button class="modal-save" onclick="saveIncome()">Add</button>
+</div>
+</div>
+
+<!-- Add Expense -->
+<div class="modal-bg" id="m-add-exp" onclick="overlayClick(event,'m-add-exp')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Expense</span><button class="modal-x" onclick="closeMod('m-add-exp')">✕</button></div>
+  <div class="modal-hint">Paid amounts only</div>
+  <div class="mfrow"><div class="fl"><label>Date</label><input type="date" id="me-date"></div><div class="fl"><label>Amount (AED)</label><input type="number" id="me-amount" inputmode="decimal" placeholder="0"></div></div>
+  <div class="mfrow full"><div class="fl"><label>Category</label><select id="me-cat"></select></div></div>
+  <div class="mfrow full"><div class="fl"><label>Description</label><input type="text" id="me-desc" placeholder="Details..."></div></div>
+  <button class="modal-save" onclick="saveExpense()">Add Expense</button>
+</div>
+</div>
+
+<!-- Salary Payment -->
+<div class="modal-bg" id="m-add-sal" onclick="overlayClick(event,'m-add-sal')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Staff Payment</span><button class="modal-x" onclick="closeMod('m-add-sal')">✕</button></div>
+  <div class="modal-hint" id="ms-hint">Salary = % of project service value</div>
+  <div class="mfrow full"><div class="fl"><label>Employee</label><select id="ms-emp"></select></div></div>
+  <div class="mfrow">
+    <div class="fl"><label>% of project</label><input type="number" id="ms-pct" inputmode="decimal" placeholder="10" step="0.5"></div>
+    <div class="fl"><label>Calculated</label><input type="text" id="ms-calc" readonly style="background:var(--surface2);color:var(--moss);font-weight:700;font-family:JetBrains Mono,monospace"></div>
+  </div>
+  <div class="mfrow">
+    <div class="fl"><label>Payment date</label><input type="date" id="ms-date"></div>
+    <div class="fl"><label>Actual amount (AED)</label><input type="number" id="ms-amount" inputmode="decimal" placeholder="0"></div>
+  </div>
+  <button class="modal-save" onclick="saveSalaryPayment()">Record Payment</button>
+</div>
+</div>
+
+<!-- Add Adjustment -->
+<div class="modal-bg" id="m-add-adj" onclick="overlayClick(event,'m-add-adj')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Adjustment</span><button class="modal-x" onclick="closeMod('m-add-adj')">✕</button></div>
+  <div class="mfrow"><div class="fl"><label>Date</label><input type="date" id="ma-date"></div><div class="fl"><label>Type</label><select id="ma-type"><option value="1">+ Add</option><option value="-1">− Вычесть</option></select></div></div>
+  <div class="mfrow full"><div class="fl"><label>Amount (AED)</label><input type="number" id="ma-amount" inputmode="decimal" placeholder="0"></div></div>
+  <div class="mfrow full"><div class="fl"><label>Note</label><input type="text" id="ma-note" placeholder="Reason..."></div></div>
+  <button class="modal-save" onclick="saveAdj()">Add</button>
+</div>
+</div>
+
+<!-- Add Link -->
+<div class="modal-bg" id="m-add-lnk" onclick="overlayClick(event,'m-add-lnk')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Link</span><button class="modal-x" onclick="closeMod('m-add-lnk')">✕</button></div>
+  <div class="mfrow full"><div class="fl"><label>Name</label><input type="text" id="ml-label" placeholder="Folder, renders..."></div></div>
+  <div class="mfrow full"><div class="fl"><label>URL</label><input type="url" id="ml-url" placeholder="https://drive.google.com/..."></div></div>
+  <button class="modal-save" onclick="saveLink()">Add</button>
+</div>
+</div>
+
+<!-- Employee -->
+<div class="modal-bg" id="m-emp" onclick="overlayClick(event,'m-emp')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl" id="m-emp-ttl">Сотрудник</span><button class="modal-x" onclick="closeMod('m-emp')">✕</button></div>
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+    <div id="emp-photo-preview" onclick="document.getElementById('emp-photo-input').click()" style="width:72px;height:72px;border-radius:16px;background:var(--surface2);border:2px dashed var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0">
+      <span style="font-size:22px">📷</span>
+      <span style="font-size:9px;color:var(--text3);margin-top:2px;font-weight:600">ФОТО</span>
+    </div>
+    <input type="file" id="emp-photo-input" accept="image/*" style="display:none" onchange="previewEmpPhoto(this)">
+    <div style="flex:1">
+      <div class="fl" style="margin-bottom:8px"><label>Name</label><input type="text" id="emp-name" placeholder="Employee name"></div>
+      <div class="fl"><label>Role</label><input type="text" id="emp-role" placeholder="Visualizer, Draftsman..."></div>
+    </div>
+  </div>
+  <div class="mfrow full"><div class="fl"><label>Location</label><input type="text" id="emp-loc" placeholder="Dubai, Remote..."></div></div>
+  <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:8px 0 4px;border-top:1px solid var(--border);margin-top:4px">Тип занятости</div>
+  <div class="mfrow" style="margin-bottom:4px">
+    <div class="fl"><label>Type</label>
+      <select id="emp-type" onchange="toggleSalaryField()">
+        <option value="staff">Staff (fixed salary)</option>
+        <option value="freelance">Freelance (project-based)</option>
+      </select>
+    </div>
+    <div class="fl" id="emp-salary-wrap"><label>Rate (AED/mo)</label><input type="number" id="emp-salary" inputmode="decimal" placeholder="0"></div>
+  </div>
+  <div class="mfrow" id="emp-payday-row">
+    <div class="fl"><label>Pay day</label><input type="number" id="emp-payday" inputmode="numeric" placeholder="1–31" min="1" max="31"></div>
+    <div class="fl"><label>Start date</label><input type="date" id="emp-start"></div>
+  </div>
+  <div class="mfrow full" id="emp-end-row">
+    <div class="fl"><label>End date (if left)</label><input type="date" id="emp-end"></div>
+  </div>
+  <button class="modal-save" onclick="saveEmployee()">Save</button>
+  <button class="modal-del" id="emp-del-btn" onclick="deleteEmployee()" style="display:none">Remove Employee</button>
+</div>
+</div>
+
+<!-- Owner Salary Modal -->
+<div class="modal-bg" id="m-owner-sal" onclick="overlayClick(event,'m-owner-sal')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Manager Salary</span><button class="modal-x" onclick="closeMod('m-owner-sal')">✕</button></div>
+  <div class="mfrow full"><div class="fl"><label>Сумма в месяц (AED)</label><input type="number" id="owner-sal-input" inputmode="decimal" placeholder="0"></div></div>
+  <button class="modal-save" onclick="saveOwnerSal()">Save</button>
+</div>
+</div>
+<div class="modal-bg" id="m-wp" onclick="overlayClick(event,'m-wp')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Work Period</span><button class="modal-x" onclick="closeMod('m-wp')">✕</button></div>
+  <div class="mfrow full"><div class="fl"><label>Tracking start date</label><input type="date" id="wp-start-input"></div></div>
+  <button class="modal-save" onclick="saveWorkPeriod()">Save</button>
+</div>
+</div>
+
+<script>
+var TODAY=new Date(),TODAY_STR=TODAY.toISOString().slice(0,10);
+var MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var ECOLS=['rgba(105,124,112,0.8)','rgba(179,201,214,0.8)','rgba(152,170,157,0.7)','rgba(160,128,64,0.7)','rgba(184,92,92,0.7)'];
+var ECOLS_S=['#697C70','#B3C9D6','#98AA9D','#A08040','#B85C5C'];
+
+var DEFAULT_SVCS=[
+  {id:'plan',name:'Floor Plan',pricePerSqm:15,on:false},
+  {id:'viz', name:'Visualization',pricePerSqm:45,on:false},
+  {id:'draw',name:'Drawings',pricePerSqm:30,on:false},
+  {id:'kit', name:'Fit-out',pricePerSqm:20,on:false}
+];
+function cloneSvcs(s){return JSON.parse(JSON.stringify(s));}
+
+// Auto-migrate from any previous version key
+(function migrateLegacy(){
+  var keys=['mmv3','mmv2','sfin5','sfin1','findb4','findb3','findb2','findb'];
+  if(localStorage.getItem('mmv4')) return; // already have data
+  for(var i=0;i<keys.length;i++){
+    var raw=localStorage.getItem(keys[i]);
+    if(!raw) continue;
+    try{
+      var old=JSON.parse(raw);
+      if(!old||(!old.projects&&!old.team)) continue;
+      // patch old structure to new
+      if(old.salary&&!old.team){
+        old.team=[
+          {id:1,name:'Visualizer',role:'3D & Renders',loc:'',salary:old.salary.viz||8000,payday:1,start:old.workPeriodStart||'2026-02-15',end:''},
+          {id:2,name:'Draftsman',role:'CAD & Drawings',loc:'',salary:old.salary.drft||5000,payday:1,start:old.workPeriodStart||'2026-02-15',end:''}
+        ];
+      }
+      // patch projects: add services if missing
+      if(old.projects){
+        old.projects.forEach(function(p){
+          if(!p.services) p.services=[
+            {id:'plan',name:'Floor Plan',pricePerSqm:15,on:false},
+            {id:'viz',name:'Visualization',pricePerSqm:45,on:false},
+            {id:'draw',name:'Drawings',pricePerSqm:30,on:false},
+            {id:'kit',name:'Fit-out',pricePerSqm:20,on:false}
+          ];
+          if(!p.income) p.income=[];
+          if(!p.expenses) p.expenses=[];
+          if(!p.adjustments) p.adjustments=[];
+          if(!p.links) p.links=[];
+          // mark all existing expenses as paid
+          p.expenses.forEach(function(e){ if(e.paid===undefined) e.paid=true; });
+        });
+      }
+      localStorage.setItem('mmv4', JSON.stringify(old));
+      console.log('Migrated data from', keys[i]);
+      return;
+    }catch(e){ continue; }
+  }
+})();
+
+var db=JSON.parse(localStorage.getItem('mmv4')||'null')||{
+  workPeriodStart:'2026-02-15',
+  team:[
+    {id:1,name:'Visualizer',role:'3D & Renders',loc:'Dubai',salary:8000,payday:1,start:'2026-02-15',end:''},
+    {id:2,name:'Draftsman',role:'CAD & Drawings',loc:'Dubai',salary:5000,payday:1,start:'2026-02-15',end:''}
+  ],
+  projects:[
+    {id:10,name:'Villa Mirage',client:'Al-Farsi Family',status:'completed',area:320,start:'2025-01-01',deadline:'2025-12-31',note:'4 bedrooms',
+     services:[{id:'plan',name:'Floor Plan',pricePerSqm:15,on:true},{id:'viz',name:'Visualization',pricePerSqm:45,on:true},{id:'draw',name:'Drawings',pricePerSqm:30,on:false},{id:'kit',name:'Fit-out',pricePerSqm:20,on:false}],
+     income:[{id:101,date:'2025-01-10',desc:'Аванс 30%',amount:5760},{id:102,date:'2025-06-12',desc:'Финальный расчёт',amount:13440}],
+     expenses:[{id:201,date:'2025-01-15',cat:'Models & Textures',desc:'Furniture pack',amount:1200,paid:true},{id:202,date:'2025-06-15',cat:'Staff',desc:'Визуализатор 15%',amount:2880,paid:true}],
+     adjustments:[],links:[]},
+    {id:11,name:'Dubai Office',client:'Business Hub LLC',status:'active',area:500,start:'2025-02-01',deadline:'2026-06-30',note:'500м²',
+     services:[{id:'plan',name:'Floor Plan',pricePerSqm:15,on:true},{id:'viz',name:'Visualization',pricePerSqm:45,on:true},{id:'draw',name:'Drawings',pricePerSqm:30,on:true},{id:'kit',name:'Fit-out',pricePerSqm:20,on:false}],
+     income:[{id:103,date:'2025-02-05',desc:'Stage 1',amount:22000}],
+     expenses:[{id:203,date:'2025-02-15',cat:'Software & Subs',desc:'Lumion',amount:800,paid:true}],
+     adjustments:[{id:301,date:'2025-03-01',sign:1,note:'Расширение',amount:3000}],
+     links:[{id:401,label:'Drive Folder',url:'https://drive.google.com'}]},
+    {id:12,name:'Sahara Restaurant',client:'Private Client',status:'active',area:180,start:'2026-01-15',deadline:'2026-08-01',note:'Concept',
+     services:[{id:'plan',name:'Floor Plan',pricePerSqm:15,on:true},{id:'viz',name:'Visualization',pricePerSqm:45,on:true},{id:'draw',name:'Drawings',pricePerSqm:30,on:false},{id:'kit',name:'Fit-out',pricePerSqm:20,on:false}],
+     income:[{id:104,date:'2026-01-20',desc:'Advance',amount:5400}],
+     expenses:[],adjustments:[],links:[]}
+  ],
+  nid:600,
+  ownerSalary:15000,
+  ownerPaidMonths:{}
+};
+
+var viewYear=TODAY.getFullYear(),curScreen='dash',curProjId=null,editProjId=null,editEmpId=null;
+var barC=null,salC=null,repC=null,projDonutC=null;
+var tmpNewSvcs=null,tmpEditSvcs=null;
+var SAL_START=new Date(db.workPeriodStart||'2026-02-15');
+
+/* ═══════════════════════════════════════════════
+   GOOGLE SHEETS SYNC
+   Set SHEETS_URL to your Apps Script Web App URL
+═══════════════════════════════════════════════ */
+var SHEETS_URL = localStorage.getItem('gs_url') || 'https://script.google.com/macros/s/AKfycbxh9HmQYLhmKPelu-2das0vUGUU0X8yvAjZ091Q3Ej7B9MOzcXBfoFKtSkNen40CQUC/exec';
+var _syncTimer = null;
+var _syncStatus = 'idle'; // idle | saving | loading | error | ok
+
+function save(){
+  localStorage.setItem('mmv4', JSON.stringify(db));
+  if(SHEETS_URL){
+    clearTimeout(_syncTimer);
+    _syncTimer = setTimeout(syncToSheets, 1500); // debounce 1.5s
+    setSyncStatus('saving');
+  }
+}
+
+function setSyncStatus(s){
+  _syncStatus = s;
+  var el = document.getElementById('sync-status');
+  if(!el) return;
+  var icons = {idle:'☁', saving:'⟳', loading:'⟳', error:'⚠', ok:'✓'};
+  var colors = {idle:'var(--text3)', saving:'var(--amber)', loading:'var(--amber)', error:'var(--red)', ok:'var(--moss)'};
+  el.textContent = icons[s] || '☁';
+  el.style.color = colors[s] || 'var(--text3)';
+  el.title = {idle:'Not connected',saving:'Saving to Sheets…',loading:'Loading from Sheets…',error:'Sync error — check URL',ok:'Saved to Google Sheets'}[s]||'';
+}
+
+function syncToSheets(){
+  if(!SHEETS_URL) return;
+  setSyncStatus('saving');
+  var payload = JSON.stringify(db);
+  var encoded = encodeURIComponent(payload);
+  var cbName = '_sheetsSave' + Date.now();
+  var done = false;
+  window[cbName] = function(res){
+    done = true;
+    delete window[cbName];
+    if(s.parentNode) s.parentNode.removeChild(s);
+    setSyncStatus('ok');
+    setTimeout(function(){ setSyncStatus('idle'); }, 3000);
+  };
+  var s = document.createElement('script');
+  s.src = SHEETS_URL + '?callback=' + cbName + '&d=' + encoded;
+  s.onerror = function(){
+    if(!done){ done=true; delete window[cbName]; fallbackFetch(payload); }
+  };
+  document.head.appendChild(s);
+  setTimeout(function(){
+    if(!done){
+      done=true;
+      if(s.parentNode) s.parentNode.removeChild(s);
+      delete window[cbName];
+      fallbackFetch(payload);
+    }
+  }, 5000);
+}
+
+function fallbackFetch(payload){
+  // CORS proxy fallback for desktop file://
+  var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(SHEETS_URL + '?d=' + encodeURIComponent(payload));
+  fetch(proxyUrl)
+  .then(function(r){ return r.text(); })
+  .then(function(t){
+    setSyncStatus('ok');
+    setTimeout(function(){ setSyncStatus('idle'); }, 3000);
+  })
+  .catch(function(){
+    setSyncStatus('error');
+    showExportFallback();
+  });
+}
+
+function loadFromSheets(callback){
+  if(!SHEETS_URL){ if(callback) callback(false); return; }
+  setSyncStatus('loading');
+  var cbName = '_sheetsLoad' + Date.now();
+  var done = false;
+  window[cbName] = function(j){
+    done = true;
+    delete window[cbName];
+    if(j && j.status==='ok' && j.data && j.data.projects){
+      db = j.data;
+      localStorage.setItem('mmv4', JSON.stringify(db));
+      setSyncStatus('ok');
+      setTimeout(function(){ setSyncStatus('idle'); }, 2000);
+      if(callback) callback(true);
+    } else {
+      setSyncStatus('idle');
+      if(callback) callback(false);
+    }
+  };
+  var s = document.createElement('script');
+  s.src = SHEETS_URL + '?callback=' + cbName + '&t=' + Date.now();
+  s.onerror = function(){
+    if(!done){ done=true; delete window[cbName]; fallbackLoad(callback); }
+  };
+  document.head.appendChild(s);
+  setTimeout(function(){
+    if(!done){
+      done=true;
+      if(s.parentNode) s.parentNode.removeChild(s);
+      delete window[cbName];
+      fallbackLoad(callback);
+    }
+  }, 6000);
+}
+
+function fallbackLoad(callback){
+  var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(SHEETS_URL + '?t=' + Date.now());
+  fetch(proxyUrl)
+  .then(function(r){ return r.json(); })
+  .then(function(j){
+    if(j && j.status==='ok' && j.data && j.data.projects){
+      db = j.data;
+      localStorage.setItem('mmv4', JSON.stringify(db));
+      setSyncStatus('ok');
+      setTimeout(function(){ setSyncStatus('idle'); }, 2000);
+      if(callback) callback(true);
+    } else {
+      setSyncStatus('idle');
+      if(callback) callback(false);
+    }
+  })
+  .catch(function(){
+    setSyncStatus('idle');
+    if(callback) callback(false);
+  });
+}
+
+function testConnection(){
+  showToast('Testing direct connection…');
+  var cbName = '_sheetsTest' + Date.now();
+  var done = false;
+  window[cbName] = function(j){
+    done = true;
+    delete window[cbName];
+    showToast('✓ Direct sync OK! Status: ' + (j && j.status));
+  };
+  var s = document.createElement('script');
+  s.src = SHEETS_URL + '?callback=' + cbName + '&t=' + Date.now();
+  s.onerror = function(){
+    done = true;
+    showToast('Direct blocked — testing proxy…');
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(SHEETS_URL + '?t=' + Date.now()))
+    .then(function(r){ return r.json(); })
+    .then(function(j){ showToast('✓ Proxy sync OK! Status: ' + (j && j.status)); })
+    .catch(function(){ showToast('✗ Both failed — use Copy JSON manually'); });
+  };
+  document.head.appendChild(s);
+  setTimeout(function(){ if(!done) showToast('Timeout — trying proxy…'); }, 5000);
+}
+
+
+// Manual export/import fallback for desktop file://
+function showExportFallback(){
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;bottom:calc(30px + var(--safe));left:50%;transform:translateX(-50%);width:calc(100% - 36px);max-width:444px;z-index:9999;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid rgba(105,124,112,0.3);box-shadow:0 8px 32px rgba(45,53,54,0.2)';
+  d.innerHTML = '<div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px">⚠ Auto-sync blocked (desktop file://)</div>'
+    + '<div style="font-size:11px;color:var(--text2);margin-bottom:10px">Open this PWA on your <b>phone</b> for automatic sync. Or copy data manually:</div>'
+    + '<div style="display:flex;gap:8px">'
+    + '<button onclick="exportJSON()" style="flex:1;padding:9px;background:var(--moss);border:none;border-radius:8px;color:var(--plaster);font-size:12px;font-weight:700;cursor:pointer">📋 Copy JSON</button>'
+    + '<button onclick="openMod(\'m-import\')" style="flex:1;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:12px;font-weight:600;cursor:pointer">📥 Import JSON</button>'
+    + '<button onclick="this.parentElement.parentElement.remove()" style="padding:9px 12px;background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer">×</button>'
+    + '</div>';
+  document.body.appendChild(d);
+  setTimeout(function(){ if(d.parentNode) d.remove(); }, 15000);
+}
+
+function exportJSON(){
+  var json = JSON.stringify(db, null, 2);
+  navigator.clipboard.writeText(json).then(function(){
+    showToast('✓ JSON copied to clipboard — paste into Sheets A1');
+  }).catch(function(){
+    // fallback
+    var ta = document.createElement('textarea');
+    ta.value = json;
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+    showToast('✓ JSON copied! Paste into Google Sheets cell A1 on data sheet');
+  });
+}
+
+function openSyncModal(){
+  document.getElementById('sync-url-input').value = SHEETS_URL;
+  openMod('m-sync');
+}
+
+function saveSyncUrl(){
+  var url = document.getElementById('sync-url-input').value.trim();
+  SHEETS_URL = url;
+  localStorage.setItem('gs_url', url);
+  closeMod('m-sync');
+  if(url){
+    loadFromSheets(function(ok){
+      if(ok){ render(); showToast('Loaded from Google Sheets!'); }
+      else { syncToSheets(); }
+    });
+  }
+}
+
+function showToast(msg){
+  var t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:calc(30px + var(--safe));left:50%;transform:translateX(-50%);background:var(--moss);color:var(--plaster);padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(45,53,54,0.3)';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 3000);
+}
+
+function forceSync(){
+  if(!SHEETS_URL){ openSyncModal(); return; }
+  loadFromSheets(function(ok){
+    showToast(ok ? '✓ Synced from Sheets' : 'Saving to Sheets…');
+    if(!ok) syncToSheets();
+    else render();
+  });
+}
+
+function save(){localStorage.setItem('mmv4',JSON.stringify(db));}
+function fmt(n){return Math.round(Math.abs(n)).toLocaleString('ru-RU');}
+function fmtS(n){return (n<0?'-':'')+fmt(n);}
+function gp(id){return db.projects.find(function(p){return p.id===id;});}
+function ge(id){return db.team.find(function(e){return e.id===id;});}
+function inYear(ds,y){return ds&&new Date(ds).getFullYear()===y;}
+function inYearMonth(ds,y,m){var d=new Date(ds);return d.getFullYear()===y&&d.getMonth()===m;}
+function isPast(y,m){var now=new Date(TODAY.getFullYear(),TODAY.getMonth());return new Date(y,m)<=now;}
+
+function projSvcTotal(p){
+  if(!p.services||!p.area)return 0;
+  return p.services.filter(function(s){return s.on;}).reduce(function(sum,s){return sum+s.pricePerSqm*(p.area||0);},0);
+}
+function projInc(p){return p.income.reduce(function(s,r){return s+r.amount;},0);}
+// Only PAID expenses, excl. staff salaries (cat='Сотрудники') — staff salary tracked separately
+function projExp(p){return p.expenses.filter(function(r){return r.paid!==false;}).reduce(function(s,r){return s+r.amount;},0);}
+// Non-salary project expenses (models, soft, other — excl. Сотрудники)
+function projExpNonSalary(p){return p.expenses.filter(function(r){return r.paid!==false&&r.cat!=='Сотрудники';}).reduce(function(s,r){return s+r.amount;},0);}
+// Only salary (Сотрудники) expenses
+function projExpSalary(p){return p.expenses.filter(function(r){return r.paid!==false&&r.cat==='Сотрудники';}).reduce(function(s,r){return s+r.amount;},0);}
+function projAdj(p){return p.adjustments.reduce(function(s,r){return s+r.sign*r.amount;},0);}
+// Прибыль только по завершённым проектам
+function projProfit(p){return projInc(p)-projExp(p)+projAdj(p);}
+function studioProfit(){
+  return db.projects.filter(function(p){return p.status==='completed';}).reduce(function(s,p){return s+projProfit(p);},0);
+}
+function projMargin(p){var i=projInc(p);return i>0?Math.round(projProfit(p)/i*100):0;}
+function projModels(p){return p.expenses.filter(function(r){return r.paid!==false&&(r.cat==='Models & Textures'||r.cat==='Models'||r.cat==='Текстуры');}).reduce(function(s,r){return s+r.amount;},0);}
+function projSalaries(p){return p.expenses.filter(function(r){return r.paid!==false&&r.cat==='Сотрудники';}).reduce(function(s,r){return s+r.amount;},0);}
+function projSoft(p){return p.expenses.filter(function(r){return r.paid!==false&&(r.cat==='Софт & Подписки'||r.cat==='Подписки');}).reduce(function(s,r){return s+r.amount;},0);}
+function projOtherExp(p){var e=projExp(p);return e-projModels(p)-projSalaries(p)-projSoft(p);}
+
+function daysBetween(a,b){var d1=new Date(a),d2=new Date(b);if(isNaN(d1)||isNaN(d2))return 0;var diff=d2-d1;return diff<0?0:Math.floor(diff/86400000);}
+function daysWorkedFor(e){var s=new Date(e.start||db.workPeriodStart);var end=e.end?new Date(e.end):TODAY;if(isNaN(s))return 0;var d=end-s;return d<0?0:Math.floor(d/86400000);}
+function salAccrued(e){return Math.round(e.salary/30*daysWorkedFor(e));}
+function nextPayDate(e){var day=parseInt(e.payday)||1;var d=new Date(TODAY);d.setDate(day);if(d<=TODAY){d.setMonth(d.getMonth()+1);d.setDate(day);}var diff=Math.ceil((d-TODAY)/86400000);return d.toISOString().slice(0,10)+' (через '+diff+'д)';}
+
+/* NAV */
+function goTo(s){
+  curScreen=s;curProjId=null;
+  document.getElementById('nav-tabs').style.display='flex';
+  document.getElementById('back-row').style.display='none';
+  document.querySelectorAll('.ntb').forEach(function(b,i){b.classList.toggle('on',['dash','projects','salary','report'][i]===s);});
+  document.querySelectorAll('.screen').forEach(function(el){el.classList.remove('on');});
+  document.getElementById('screen-'+s).classList.add('on');
+  render();
+}
+function openProject(id){
+  curProjId=id;curScreen='proj-detail';
+  var p=gp(id);
+  document.getElementById('nav-tabs').style.display='none';
+  document.getElementById('back-row').style.display='flex';
+  document.getElementById('proj-hdr-name').textContent=p.name;
+  document.querySelectorAll('.screen').forEach(function(el){el.classList.remove('on');});
+  document.getElementById('screen-proj-detail').classList.add('on');
+  renderProjDetail();
+}
+function closeProject(){curProjId=null;goTo('projects');}
+function shiftYear(d){viewYear+=d;document.getElementById('yr-lbl').textContent=viewYear;render();}
+function render(){
+  if(curScreen==='dash')renderDash();
+  if(curScreen==='projects')renderProjects();
+  if(curScreen==='proj-detail')renderProjDetail();
+  if(curScreen==='salary')renderSalary();
+  if(curScreen==='report')renderReport();
+}
+
+/* DASH */
+function renderDash(){
+  document.getElementById('dash-yr').textContent=viewYear;
+  var yInc=0,yExp=0;
+  db.projects.forEach(function(p){
+    p.income.forEach(function(r){if(inYear(r.date,viewYear))yInc+=r.amount;});
+    p.expenses.forEach(function(r){if(r.paid!==false&&inYear(r.date,viewYear))yExp+=r.amount;});
+  });
+  var completed=db.projects.filter(function(p){return p.status==='completed';});
+  var compProfit=completed.reduce(function(s,p){return s+projProfit(p);},0);
+  var active=db.projects.filter(function(p){return p.status==='active';}).length;
+  var studioIncome=yInc-yExp;
+
+  document.getElementById('dash-kpis').innerHTML=
+    kpi(true,'Total Project Value',fmt(db.projects.reduce(function(s,p){return s+projSvcTotal(p);},0))+' AED','all projects budget')+
+    kpi(false,'Company Income',fmt(studioIncome>=0?studioIncome:0)+' AED','revenue − expenses',studioIncome>=0?'var(--moss)':'var(--red)')+
+    kpi(false,'Active / Completed',active+' / '+completed.length,'projects','var(--amber)')+
+    kpi(false,'Expenses (excl. salaries)',fmt(db.projects.reduce(function(s,p){return s+projExpNonSalary(p);},0))+' AED','models · SW · other','var(--red)');
+
+  var incM=Array(12).fill(0),expM=Array(12).fill(0);
+  // Collect ALL income/expenses across ALL years to find data range
+  var hasAnyData=false;
+  db.projects.forEach(function(p){
+    p.income.forEach(function(r){if(inYear(r.date,viewYear)){incM[new Date(r.date).getMonth()]+=r.amount;hasAnyData=true;}});
+    p.expenses.forEach(function(r){if(r.paid!==false&&inYear(r.date,viewYear)){expM[new Date(r.date).getMonth()]+=r.amount;hasAnyData=true;}});
+  });
+
+  // If no data for viewYear, check other years and auto-switch
+  if(!hasAnyData){
+    var allYears={};
+    db.projects.forEach(function(p){
+      p.income.forEach(function(r){if(r.date)allYears[new Date(r.date).getFullYear()]=true;});
+      p.expenses.forEach(function(r){if(r.date)allYears[new Date(r.date).getFullYear()]=true;});
+    });
+    var years=Object.keys(allYears).map(Number).sort();
+    if(years.length>0){
+      viewYear=years[years.length-1];
+      document.getElementById('yr-lbl').textContent=viewYear;
+      // re-collect for correct year
+      db.projects.forEach(function(p){
+        p.income.forEach(function(r){if(inYear(r.date,viewYear))incM[new Date(r.date).getMonth()]+=r.amount;});
+        p.expenses.forEach(function(r){if(r.paid!==false&&inYear(r.date,viewYear))expM[new Date(r.date).getMonth()]+=r.amount;});
+      });
+    }
+  }
+
+  // Show only months that have data or are in the selected year up to today
+  if(barC)barC.destroy();
+  barC=new Chart(document.getElementById('barChart'),{type:'bar',data:{labels:MS,datasets:[
+    {label:'Income',data:incM,backgroundColor:'rgba(105,124,112,0.7)',borderRadius:5,borderSkipped:false},
+    {label:'Expenses',data:expM,backgroundColor:'rgba(184,92,92,0.55)',borderRadius:5,borderSkipped:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+    x:{ticks:{color:'rgba(45,53,54,0.35)',font:{size:10,family:'JetBrains Mono'}},grid:{display:false},border:{display:false}},
+    y:{ticks:{color:'rgba(45,53,54,0.35)',font:{size:10,family:'JetBrains Mono'},callback:function(v){return fmt(v);}},grid:{color:'rgba(45,53,54,0.06)'},border:{display:false}}
+  }}});
+
+  var list=db.projects.filter(function(p){
+    if(p.status==='active')return true;
+    var h=false;
+    p.income.forEach(function(r){if(inYear(r.date,viewYear))h=true;});
+    p.expenses.forEach(function(r){if(inYear(r.date,viewYear))h=true;});
+    return h;
+  });
+  // If still empty, just show all projects
+  if(!list.length) list=db.projects;
+  document.getElementById('dash-proj-list').innerHTML=list.length?list.map(projCard).join('')+'<div style="height:4px"></div>':'<div class="empty">No projects yet</div>';
+}
+
+function kpi(hot,lbl,val,sub,color){
+  var c=hot?'kpi hot':'kpi';var vc=color?' style="color:'+color+'"':'';
+  return '<div class="'+c+'"><div class="kpi-lbl">'+lbl+'</div><div class="kpi-val"'+vc+'>'+val+'</div><div class="kpi-sub">'+sub+'</div></div>';
+}
+
+/* PROJECT CARD */
+function projCard(p){
+  var inc=projInc(p),exp=projExp(p),pr=projProfit(p),mg=projMargin(p);
+  var svcTotal=projSvcTotal(p),models=projModels(p),salaries=projSalaries(p);
+  var sc=p.status==='active'?'st-active':p.status==='completed'?'st-completed':'st-hold';
+  var pc=p.status==='active'?'pill-moss':p.status==='completed'?'pill-mist':'pill-sage';
+  var pt=p.status==='active'?'Active':p.status==='completed'?'Done':'Paused';
+  var pct=svcTotal&&inc?Math.min(Math.round(inc/svcTotal*100),150):0;
+  var ddl=p.deadline?'Deadline: '+p.deadline:'No deadline';
+  var prog=svcTotal?'<div class="prog"><div class="prog-row"><span class="prog-lbl">Оплачено от сметы</span><span class="prog-pct">'+pct+'%</span></div><div class="prog-bar"><div class="prog-fill'+(pct>100?' over':'')+'" style="width:'+Math.min(pct,100)+'%"></div></div></div>':'';
+  return '<div class="pd '+sc+'" onclick="openProject('+p.id+')">'
+    +'<div class="pd-top">'
+      +'<div class="pd-info">'
+        +'<div class="pd-name">'+p.name+'</div>'
+        +'<div class="pd-client">'+p.client+'</div>'
+        +'<div class="pd-meta">'+(p.area?p.area+'м²  ·  ':'')+ddl+(p.note?' · '+p.note:'')+'</div>'
+      +'</div>'
+      +'<div class="pd-right">'
+        +'<div style="display:flex;align-items:center;gap:5px">'
+          +'<span class="pill '+pc+'">'+pt+'</span>'
+          +'<button style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:10px;padding:3px 7px;cursor:pointer;font-family:Outfit,sans-serif" onclick="event.stopPropagation();editProjId='+p.id+';openEditProjModal('+p.id+')">✏</button>'
+        +'</div>'
+        +'<div class="pd-profit" style="color:'+(pr>=0?'var(--moss)':'var(--red)')+'">'+( pr>=0?'+':'-')+fmt(pr)+' AED</div>'
+        +'<div style="font-size:10px;font-family:JetBrains Mono,monospace;color:'+(mg>=0?'var(--moss)':'var(--red)')+'">'+mg+'% маржа</div>'
+      +'</div>'
+    +'</div>'+prog
+    +'<div class="pd-nums">'
+      +'<div><div class="pn-lbl">Смета</div><div class="pn-val pn-b">'+fmt(svcTotal)+'</div></div>'
+      +'<div><div class="pn-lbl">Получено</div><div class="pn-val pn-g">'+fmt(inc)+'</div></div>'
+      +'<div><div class="pn-lbl">Модели</div><div class="pn-val pn-a">'+fmt(models)+'</div></div>'
+      +'<div><div class="pn-lbl">Сотруд.</div><div class="pn-val pn-r">'+fmt(salaries)+'</div></div>'
+    +'</div>'
+  +'</div>';
+}
+
+/* SVC FORM */
+function renderSvcForm(cid,svcs){
+  var el=document.getElementById(cid);if(!el)return;
+  el.innerHTML=svcs.map(function(s,i){
+    return '<div class="svc-item'+(s.on?' on':'')+'" id="svc-item-'+cid+'-'+i+'">'
+      +'<div class="svc-chk-row">'
+        +'<div class="svc-chk'+(s.on?' on':'')+'" onclick="toggleSvc(\''+cid+'\','+i+')">'+(s.on?'✓':'')+'</div>'
+        +'<div class="svc-item-name">'+s.name+'</div>'
+      +'</div>'
+      +'<div class="svc-price-wrap">'
+        +'<input class="svc-price-input" type="number" value="'+s.pricePerSqm+'" inputmode="decimal" onchange="updateSvcPrice(\''+cid+'\','+i+',this.value)" placeholder="AED/м²">'
+        +'<span class="svc-price-unit">AED/м²</span>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+function toggleSvc(cid,i){var svcs=cid.indexOf('new')>=0?tmpNewSvcs:tmpEditSvcs;svcs[i].on=!svcs[i].on;renderSvcForm(cid,svcs);}
+function updateSvcPrice(cid,i,val){var svcs=cid.indexOf('new')>=0?tmpNewSvcs:tmpEditSvcs;svcs[i].pricePerSqm=parseFloat(val)||0;}
+
+/* PROJECTS */
+function renderProjects(){
+  if(!tmpNewSvcs)tmpNewSvcs=cloneSvcs(DEFAULT_SVCS);
+  renderSvcForm('new-svc-list',tmpNewSvcs);
+  document.getElementById('all-proj-list').innerHTML=db.projects.length?db.projects.map(projCard).join(''):'<div class="empty">Нет проектов</div>';
+}
+function addProject(){
+  var nm=document.getElementById('p-name').value.trim();if(!nm)return;
+  db.projects.push({id:db.nid++,name:nm,client:document.getElementById('p-client').value.trim()||'—',status:document.getElementById('p-status').value,area:parseFloat(document.getElementById('p-area').value)||0,start:document.getElementById('p-start').value||TODAY_STR,deadline:document.getElementById('p-deadline').value||'',note:document.getElementById('p-note').value.trim(),services:cloneSvcs(tmpNewSvcs||DEFAULT_SVCS),income:[],expenses:[],adjustments:[],links:[]});
+  save();['p-name','p-client','p-area','p-start','p-deadline','p-note'].forEach(function(id){document.getElementById(id).value='';});
+  tmpNewSvcs=cloneSvcs(DEFAULT_SVCS);renderProjects();
+}
+
+/* PROJECT DETAIL */
+function renderProjDetail(){
+  var p=gp(curProjId);if(!p)return;
+  var inc=projInc(p),exp=projExp(p),adj=projAdj(p),pr=projProfit(p),mg=projMargin(p);
+  var models=projModels(p),salaries=projSalaries(p),soft=projSoft(p),other=projOtherExp(p);
+  var svcTotal=projSvcTotal(p),pct=svcTotal&&inc?Math.min(Math.round(inc/svcTotal*100),150):0;
+  var sc=p.status==='active'?'pill-moss':p.status==='completed'?'pill-mist':'pill-sage';
+  var st=p.status==='active'?'Active':p.status==='completed'?'Завершён':'На паузе';
+  var totalExp2=exp>0?exp:1;
+  var modPct=Math.round(models/totalExp2*100),salPct=Math.round(salaries/totalExp2*100),softPct=Math.round(soft/totalExp2*100),othPct=Math.max(0,100-modPct-salPct-softPct);
+  var costBar=exp>0?'<div class="cost-bar-wrap"><div style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">Expense Breakdown</div><div class="cost-bar-track">'
+    +(models>0?'<div style="flex:'+modPct+';background:var(--amber);border-radius:2px;min-width:3px"></div>':'')+
+    (salaries>0?'<div style="flex:'+salPct+';background:var(--red);border-radius:2px;min-width:3px"></div>':'')+
+    (soft>0?'<div style="flex:'+softPct+';background:#5a7d94;border-radius:2px;min-width:3px"></div>':'')+
+    (other>0?'<div style="flex:'+othPct+';background:var(--text3);border-radius:2px;min-width:3px"></div>':'')+
+    '</div><div class="cost-bar-leg">'
+    +(models>0?'<div class="cost-bar-item"><div class="cost-dot" style="background:var(--amber)"></div>Models '+fmt(models)+'</div>':'')+
+    (salaries>0?'<div class="cost-bar-item"><div class="cost-dot" style="background:var(--red)"></div>Staff '+fmt(salaries)+'</div>':'')+
+    (soft>0?'<div class="cost-bar-item"><div class="cost-dot" style="background:#5a7d94"></div>Software '+fmt(soft)+'</div>':'')+
+    (other>0?'<div class="cost-bar-item"><div class="cost-dot" style="background:var(--text3)"></div>Other '+fmt(other)+'</div>':'')+
+    '</div></div>':'';
+  var activeSvcs=(p.services||[]).filter(function(s){return s.on;});
+  var svcRows=activeSvcs.map(function(s){var t=s.pricePerSqm*(p.area||0);return '<tr><td><div style="font-size:12px;font-weight:500">'+s.name+'</div><div style="font-size:10px;color:var(--text3);font-family:JetBrains Mono,monospace">'+s.pricePerSqm+' × '+fmt(p.area||0)+'м²</div></td><td class="svc-total-cell">'+fmt(t)+'</td></tr>';}).join('');
+  var iRows=p.income.map(function(r){return txRow('i','↑',r.desc,r.date,'i','+'+fmt(r.amount),'delInc('+r.id+')');}).join('');
+  var eRows=p.expenses.map(function(r){
+    var ico=r.cat==='Сотрудники'?'👤':r.cat==='Models & Textures'||r.cat==='Models'?'🎨':r.cat==='Софт & Подписки'?'💻':'📦';
+    return txRow('e',ico,r.cat,r.date+' · '+r.desc,'e','-'+fmt(r.amount),'delExp('+r.id+')');
+  }).join('');
+  var aRows=p.adjustments.map(function(r){return txRow('a','±',r.note,r.date,'a',(r.sign>0?'+':'-')+fmt(r.amount),'delAdj('+r.id+')');}).join('');
+  var lRows=p.links.map(function(r){return '<div class="tx"><div class="tx-ico l">🔗</div><div class="tx-body"><a style="font-size:13px;font-weight:500;color:#5a7d94;text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" href="'+r.url+'" target="_blank">'+r.label+'</a><div class="tx-sub">'+r.url.slice(0,40)+'...</div></div><div class="tx-right"><button class="tx-del" onclick="delLink('+r.id+')">×</button></div></div>';}).join('');
+
+  document.getElementById('screen-proj-detail').innerHTML=
+  '<div class="kpi-grid">'
+    +kpi(true,'Budget',fmt(svcTotal)+' AED',activeSvcs.length+' services · '+(p.area||0)+'м²')
+    +kpi(false,'Received',fmt(inc)+' AED',p.income.length+' payments','var(--moss)')
+    +kpi(false,'Прибыль',fmtS(pr)+' AED','margin '+mg+'%',pr>=0?'var(--moss)':'var(--red)')
+    +kpi(false,'Expenses',fmt(exp)+' AED',p.expenses.length+' items','var(--red)')
+  +'</div>'
+  +(activeSvcs.length?
+    '<div class="card"><div class="card-hdr"><span class="card-ttl">Услуги по проекту</span><div style="display:flex;gap:6px"><span class="pill '+sc+'">'+st+'</span><button class="card-act" onclick="openEditProjModal('+p.id+')">Изменить</button><button class="card-act danger" onclick="editProjId='+p.id+';deleteProjConfirm()">Удалить</button></div></div>'
+      +'<table class="svc-table"><thead><tr><th>Услуга</th><th style="text-align:right">Сумма</th></tr></thead><tbody>'+svcRows+'</tbody>'
+      +'<tfoot><tr><td style="padding-top:10px;font-size:11px;font-weight:700;color:var(--text2)">Итого по смете</td><td style="text-align:right;font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:var(--moss);padding-top:10px">'+fmt(svcTotal)+' AED</td></tr></tfoot>'
+      +'</table>'
+      +(p.area?'<div class="prog" style="margin-top:12px"><div class="prog-row"><span class="prog-lbl">Оплачено от сметы</span><span class="prog-pct">'+pct+'%</span></div><div class="prog-bar"><div class="prog-fill'+(pct>100?' over':'')+'" style="width:'+Math.min(pct,100)+'%"></div></div></div>':'')+
+      (p.note?'<div style="margin-top:10px;font-size:12px;color:var(--text2);padding:9px 12px;background:var(--surface2);border-radius:var(--rsm)">'+p.note+'</div>':'')+
+    '</div>'
+  :'<div class="card"><div class="card-hdr"><span class="card-ttl">Услуги не выбраны</span><button class="card-act" onclick="openEditProjModal('+p.id+')">Add</button></div><div class="empty">Нажмите «Изменить» чтобы выбрать услуги</div></div>')
+  +'<div class="card"><div class="card-hdr"><span class="card-ttl">Финансы проекта</span></div>'
+    +'<div class="kpi-grid" style="gap:8px">'
+      +mkpi('var(--moss)','Revenue',fmt(inc)+' AED',p.income.length+' поступл.')
+      +mkpi('var(--red)','Expenses',fmt(exp)+' AED',p.expenses.length+' items')
+      +mkpi('var(--amber)','Models & Textures',fmt(models)+' AED','assets')
+      +mkpi('var(--red)','Сотрудники',fmt(salaries)+' AED','on project')
+      +mkpi('#5a7d94','Софт & Подписки',fmt(soft)+' AED','SW · licenses')
+      +mkpi(pr>=0?'var(--moss)':'var(--red)','Прибыль',fmtS(pr)+' AED','margin '+mg+'%')
+    +'</div>'
+    +costBar
+    +(exp>0?'<div style="display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)"><div style="position:relative;height:110px"><canvas id="proj-donut"></canvas></div>'
+      +'<div style="display:flex;flex-direction:column;gap:7px">'
+      +(models>0?dleg('var(--amber)','Models & Textures',fmt(models)):'')+
+      (salaries>0?dleg('var(--red)','Сотрудники',fmt(salaries)):'')+
+      (soft>0?dleg('#5a7d94','Софт & Подписки',fmt(soft)):'')+
+      (other>0?dleg('rgba(45,53,54,0.3)','Other',fmt(other)):'')+
+      '</div></div>':'')+
+  '</div>'
+  +cardB('Income','+ Add',"openMod('m-add-inc')",iRows||'<div class="empty">Нет поступлений</div>')
+  +'<div class="card"><div class="card-hdr"><span class="card-ttl">Расходы</span><div style="display:flex;gap:6px"><button class="card-act" onclick="openSalModal()">+ Сотрудник</button><button class="card-act" onclick="openMod(&quot;m-add-exp&quot;)">+ Расход</button></div></div><div class="tx-list">'+(eRows||'<div class="empty">Нет расходов</div>')+'</div></div>'
+  +cardB('Adjustments','+ Add',"openMod('m-add-adj')",aRows||'<div class="empty">Нет корректировок</div>')
+  +cardB('Drive Links','+ Add',"openMod('m-add-lnk')",lRows||'<div class="empty">Нет ссылок</div>');
+
+  setTimeout(function(){
+    var canvas=document.getElementById('proj-donut');
+    if(!canvas||models+salaries+soft+other===0)return;
+    if(projDonutC)projDonutC.destroy();
+    projDonutC=new Chart(canvas,{type:'doughnut',data:{labels:['Models','Сотрудники','Софт','Other'],datasets:[{data:[models,salaries,soft,other],backgroundColor:['rgba(160,128,64,0.85)','rgba(184,92,92,0.8)','rgba(90,125,148,0.75)','rgba(45,53,54,0.2)'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}});
+  },50);
+}
+function dleg(c,n,v){return '<div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;border-radius:2px;background:'+c+'"></div><span style="font-size:12px;color:var(--text2)">'+n+'</span></div><span style="font-size:12px;font-weight:700;font-family:JetBrains Mono,monospace;color:var(--text)">'+v+'</span></div>';}
+function cardB(t,a,oc,inner){return '<div class="card"><div class="card-hdr"><span class="card-ttl">'+t+'</span><button class="card-act" onclick="'+oc+'">'+a+'</button></div><div class="tx-list">'+inner+'</div></div>';}
+function txRow(type,ico,name,sub,amtCls,amt,delFn){return '<div class="tx"><div class="tx-ico '+type+'">'+ico+'</div><div class="tx-body"><div class="tx-name">'+name+'</div><div class="tx-sub">'+sub+'</div></div><div class="tx-right"><div class="tx-amt '+amtCls+'">'+amt+'</div><button class="tx-del" onclick="'+delFn+'">×</button></div></div>';}
+function mkpi(color,label,val,sub){return '<div class="mkpi"><div class="mkpi-lbl">'+label+'</div><div class="mkpi-val" style="color:'+color+'">'+val+'</div><div class="mkpi-sub">'+sub+'</div></div>';}
+
+/* SAL MODAL */
+function openSalModal(){
+  var p=gp(curProjId);if(!p)return;
+  var svcTotal=projSvcTotal(p);
+  document.getElementById('ms-emp').innerHTML=db.team.map(function(e){return '<option value="'+e.id+'">'+e.name+' ('+e.role+')</option>';}).join('');
+  document.getElementById('ms-pct').value='';document.getElementById('ms-amount').value='';document.getElementById('ms-date').value=TODAY_STR;document.getElementById('ms-calc').value='';
+  document.getElementById('ms-hint').textContent='Смета проекта: '+fmt(svcTotal)+' AED. Укажите % для расчёта.';
+  document.getElementById('ms-pct').oninput=function(){var c=Math.round(svcTotal*parseFloat(this.value||0)/100);document.getElementById('ms-calc').value=fmt(c)+' AED';document.getElementById('ms-amount').value=c;};
+  openMod('m-add-sal');
+}
+function saveSalaryPayment(){
+  var amt=parseFloat(document.getElementById('ms-amount').value);if(!amt)return;
+  var emp=ge(parseInt(document.getElementById('ms-emp').value));
+  gp(curProjId).expenses.push({id:db.nid++,date:document.getElementById('ms-date').value||TODAY_STR,cat:'Staff',desc:(document.getElementById('ms-pct').value||'?')+'% · '+(emp?emp.name:'Сотрудник'),amount:amt,paid:true});
+  save();closeMod('m-add-sal');renderProjDetail();
+}
+
+/* SALARY SCREEN */
+function empProjectPayments(e){
+  // Find all salary payments for this employee across all projects
+  var payments=[];
+  db.projects.forEach(function(p){
+    p.expenses.forEach(function(r){
+      if(r.paid!==false && r.cat==='Сотрудники' && r.desc && r.desc.toLowerCase().indexOf(e.name.toLowerCase())>=0){
+        payments.push({project:p.name,amount:r.amount,date:r.date,desc:r.desc});
+      }
+    });
+  });
+  return payments;
+}
+function empTotalProjectPay(e){
+  return empProjectPayments(e).reduce(function(s,r){return s+r.amount;},0);
+}
+
+function renderSalary(){
+  SAL_START=new Date(db.workPeriodStart||'2026-02-15');
+  var totalMo=db.team.filter(function(e){return e.type!=='freelance';}).reduce(function(s,e){return s+e.salary;},0);
+  var totalAcc=db.team.filter(function(e){return e.type!=='freelance';}).reduce(function(s,e){return s+salAccrued(e);},0);
+  var allInc=db.projects.reduce(function(s,p){return s+projInc(p);},0);
+  var allExp=db.projects.reduce(function(s,p){return s+projExp(p);},0);
+  var allSalPaid=db.projects.reduce(function(s,p){return s+projSalaries(p);},0);
+
+  var studioProfit2=allInc-(allExp);
+  document.getElementById('sal-studio-kpis').innerHTML=
+    kpi(true,'Design Studio Profit',fmtS(studioProfit2)+' AED','revenue − all expenses')+
+    kpi(false,'Studio Expenses',fmt(allExp)+' AED','all paid expenses','var(--red)')+
+    kpi(false,'Paid to Team',fmt(allSalPaid)+' AED','across projects','var(--amber)')+
+    kpi(false,'Monthly Payroll',fmt(totalMo)+' AED','staff employees','#5a7d94');
+
+  document.getElementById('emp-list').innerHTML=db.team.length?db.team.map(function(e){
+    var ini=e.name.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+    var isAct=!e.end||new Date(e.end)>=TODAY;
+    var isStaff=e.type!=='freelance';
+    var projPays=empProjectPayments(e);
+    var totalProjPay=empTotalProjectPay(e);
+    var acc=isStaff?salAccrued(e):0;
+    var npd=isStaff?nextPayDate(e):'';
+
+    // Photo or initials
+    var photoHtml=e.photo
+      ?'<img class="emp-photo" src="'+e.photo+'" alt="'+e.name+'">'
+      :'<div class="emp-photo-placeholder">'+ini+'</div>';
+
+    // Project payments list
+    var projRows=projPays.length
+      ?projPays.map(function(r){
+          return '<div class="emp-proj-row">'
+            +'<span class="emp-proj-name">'+r.project+'</span>'
+            +'<span style="font-size:10px;color:var(--text3);font-family:JetBrains Mono,monospace;margin-right:8px">'+r.date+'</span>'
+            +'<span class="emp-proj-amt">'+fmt(r.amount)+' AED</span>'
+          +'</div>';
+        }).join('')
+      :'<div style="font-size:11px;color:var(--text3);padding:8px 0;font-style:italic">Нет выплат по проектам</div>';
+
+    return '<div class="emp-card">'
+      // Header: photo + name + edit btn
+      +'<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">'
+        +photoHtml
+        +'<div style="flex:1;min-width:0">'
+          +'<div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.2px">'+e.name+'</div>'
+          +'<div style="font-size:10px;color:var(--moss);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-top:2px">'+e.role+'</div>'
+          +(e.loc?'<div style="font-size:11px;color:var(--text2);margin-top:3px">📍 '+e.loc+'</div>':'')+
+          '<div style="display:flex;align-items:center;gap:6px;margin-top:5px">'
+            +'<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;border:1px solid;'
+              +(isStaff?'color:var(--moss);background:var(--green-dim);border-color:rgba(105,124,112,0.3)':'color:#5a7d94;background:var(--blue-dim);border-color:rgba(179,201,214,0.4)')+'">'+( isStaff?'Staff':'Freelance')+'</span>'
+            +(isAct?'<span style="font-size:10px;color:var(--moss);font-weight:600">● Работает</span>':'<span style="font-size:10px;color:var(--red);font-weight:600">● Ушёл</span>')
+          +'</div>'
+        +'</div>'
+        +'<button class="emp-edit-btn" style="position:static;flex-shrink:0" onclick="openEditEmpModal('+e.id+')">Изм.</button>'
+      +'</div>'
+
+      // Stat grid
+      +(isStaff
+        ?'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:12px">'
+          +'<div><div class="eg-lbl">Ставка/мес</div><div class="eg-val" style="color:var(--text)">'+fmt(e.salary)+'</div></div>'
+          +'<div><div class="eg-lbl">Начислено</div><div class="eg-val" style="color:var(--moss)">'+fmt(acc)+'</div></div>'
+          +'<div><div class="eg-lbl">По проектам</div><div class="eg-val" style="color:var(--moss)">'+fmt(totalProjPay)+'</div></div>'
+        +'</div>'
+        +'<div style="font-size:10px;color:var(--text3);margin-bottom:8px">Ближ. выплата: <span style="color:var(--amber);font-weight:700;font-family:JetBrains Mono,monospace">'+npd+'</span></div>'
+        :'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:12px">'
+          +'<div><div class="eg-lbl">Тип</div><div class="eg-val">Фриланс</div></div>'
+          +'<div><div class="eg-lbl">По проектам</div><div class="eg-val" style="color:var(--moss)">'+fmt(totalProjPay)+'</div></div>'
+        +'</div>'
+      )
+
+      // Project payments breakdown
+      +'<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Оплата по проектам</div>'
+      +projRows
+    +'</div>';
+  }).join(''):'<div class="empty">Нет сотрудников</div>';
+
+  document.getElementById('sal-legend').innerHTML=db.team.map(function(e,i){return '<div class="leg"><div class="leg-dot" style="background:'+ECOLS_S[i%ECOLS_S.length]+'"></div>'+e.name+'</div>';}).join('');
+
+  // Chart: from SAL_START, showing actual accrual
+  var startM=SAL_START.getMonth(),startY=SAL_START.getFullYear();
+  var curM=TODAY.getMonth(),curY=TODAY.getFullYear();
+  var datasets=db.team.map(function(e,i){
+    var data=Array(12).fill(0);
+    for(var m=0;m<12;m++){
+      var thisY=viewYear,thisM=m;
+      var mStart=new Date(thisY,thisM,1);
+      var mEnd=new Date(thisY,thisM+1,0);
+      var eStart=new Date(e.start||db.workPeriodStart);
+      var eEnd=e.end?new Date(e.end):new Date('2099-12-31');
+      // only show if month overlaps employee period and SAL_START
+      var effectiveStart=mStart<SAL_START?SAL_START:mStart;
+      effectiveStart=mStart<eStart?eStart:effectiveStart;
+      if(effectiveStart>mEnd||effectiveStart>eEnd)continue;
+      var effectiveEnd=mEnd<eEnd?mEnd:eEnd;
+      effectiveEnd=effectiveEnd>TODAY?TODAY:effectiveEnd;
+      if(effectiveEnd<effectiveStart)continue;
+      var days=Math.floor((effectiveEnd-effectiveStart)/86400000)+1;
+      data[m]=Math.round(e.salary/30*days);
+    }
+    return {label:e.name,data:data,backgroundColor:ECOLS[i%ECOLS.length],borderRadius:4,borderSkipped:false,stack:'s'};
+  });
+  if(salC)salC.destroy();
+  if(document.getElementById('salChart')&&db.team.length){
+    salC=new Chart(document.getElementById('salChart'),{type:'bar',data:{labels:MS,datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+      x:{ticks:{color:'rgba(45,53,54,0.35)',font:{size:10,family:'JetBrains Mono'}},grid:{display:false},border:{display:false},stacked:true},
+      y:{ticks:{color:'rgba(45,53,54,0.35)',font:{size:10,family:'JetBrains Mono'},callback:function(v){return fmt(v);}},grid:{color:'rgba(45,53,54,0.06)'},border:{display:false},stacked:true}
+    }}});
+  }
+}
+
+function ownerMonthKey(y,m){return y+'_'+m;}
+function isOwnerPaid(y,m){return !!(db.ownerPaidMonths&&db.ownerPaidMonths[ownerMonthKey(y,m)]);}
+function openMonthSalModal(y,m){
+  if(!isPast(y,m))return;
+  var key=ownerMonthKey(y,m);
+  var existing=(db.ownerPaidMonths&&db.ownerPaidMonths[key])||0;
+  document.getElementById('month-sal-lbl').textContent=MS[m]+' '+y;
+  document.getElementById('month-sal-input').value=existing||'';
+  document.getElementById('month-sal-y').value=y;
+  document.getElementById('month-sal-m').value=m;
+  openMod('m-month-sal');
+}
+function saveMonthSal(){
+  var y=parseInt(document.getElementById('month-sal-y').value);
+  var m=parseInt(document.getElementById('month-sal-m').value);
+  var amt=parseFloat(document.getElementById('month-sal-input').value)||0;
+  if(!db.ownerPaidMonths)db.ownerPaidMonths={};
+  var key=ownerMonthKey(y,m);
+  if(amt>0)db.ownerPaidMonths[key]=amt;
+  else delete db.ownerPaidMonths[key];
+  save();closeMod('m-month-sal');renderReport();
+}
+function toggleOwnerMonth(y,m){
+  if(!isPast(y,m))return;
+  if(!db.ownerPaidMonths)db.ownerPaidMonths={};
+  var k=ownerMonthKey(y,m);
+  if(db.ownerPaidMonths[k])delete db.ownerPaidMonths[k];
+  else db.ownerPaidMonths[k]=db.ownerSalary||0;
+  save();renderReport();
+}
+function openOwnerSalModal(){
+  document.getElementById('owner-sal-input').value=db.ownerSalary||'';
+  openMod('m-owner-sal');
+}
+function saveOwnerSal(){
+  db.ownerSalary=parseFloat(document.getElementById('owner-sal-input').value)||0;
+  save();closeMod('m-owner-sal');renderReport();
+}
+
+/* REPORT */
+function renderReport(){
+  if(!db.ownerPaidMonths)db.ownerPaidMonths={};
+  var ownerSal=db.ownerSalary||0;
+
+  // Compute per-year totals
+  // yInc = all project income for year
+  // yExpNonSal = all paid project expenses EXCLUDING Сотрудники
+  // yExpSal = all paid project expenses ONLY Сотрудники (freelancers/staff on projects)
+  var yInc=0, yExpNonSal=0, yExpSal=0;
+  var incM=Array(12).fill(0), expNonSalM=Array(12).fill(0), expSalM=Array(12).fill(0);
+
+  db.projects.forEach(function(p){
+    p.income.forEach(function(r){
+      if(inYear(r.date,viewYear)){yInc+=r.amount;incM[new Date(r.date).getMonth()]+=r.amount;}
+    });
+    p.expenses.forEach(function(r){
+      if(r.paid!==false&&inYear(r.date,viewYear)){
+        var m=new Date(r.date).getMonth();
+        if(r.cat==='Сотрудники'){yExpSal+=r.amount;expSalM[m]+=r.amount;}
+        else{yExpNonSal+=r.amount;expNonSalM[m]+=r.amount;}
+      }
+    });
+  });
+
+  // Доход студии = выручка минус расходы на фрилансеров, модели, текстуры, софт (НЕ зарплаты штатных)
+  var studioIncome = yInc - yExpNonSal;
+  var compProfit = db.projects.filter(function(p){return p.status==='completed';}).reduce(function(s,p){return s+projProfit(p);},0);
+
+  // Owner salary paid this year — sum actual amounts per month
+  var ownerPaidYr=0;
+  for(var m=0;m<12;m++){
+    var k=ownerMonthKey(viewYear,m);
+    if(db.ownerPaidMonths&&db.ownerPaidMonths[k]) ownerPaidYr+=db.ownerPaidMonths[k];
+  }
+
+  document.getElementById('rep-kpis').innerHTML=
+    kpi(true,'Studio Revenue',fmt(studioIncome)+' AED','revenue − models/SW/freelance')+
+    kpi(false,'Project Expenses',fmt(yExpNonSal)+' AED','models · SW · other','var(--red)')+
+    kpi(false,'Staff Payments',fmt(yExpSal)+' AED','across projects','var(--amber)')+
+    kpi(false,'Profit (completed)',fmtS(compProfit)+' AED','completed projects',compProfit>=0?'var(--moss)':'var(--red)');
+
+  // Owner salary interactive months — click to enter/edit salary paid that month
+  var monthsHtml='<div class="owner-months">'+MS.map(function(m,i){
+    var past=isPast(viewYear,i);
+    var paidAmt=db.ownerPaidMonths&&db.ownerPaidMonths[ownerMonthKey(viewYear,i)]
+      ? db.ownerPaidMonths[ownerMonthKey(viewYear,i)] : 0;
+    var hasPaid=paidAmt>0;
+    var cls='owner-m'+(hasPaid?' paid':past?'':' future');
+    var onclick=past?'onclick="openMonthSalModal('+viewYear+','+i+')"':'';
+    return '<div class="'+cls+'" '+onclick+'>'
+      +'<div class="owner-m-lbl">'+m+'</div>'
+      +(hasPaid
+        ?'<div class="owner-m-amt">'+fmt(paidAmt)+'</div><div style="font-size:9px;color:var(--moss);font-family:JetBrains Mono,monospace;font-weight:600;margin-top:1px">AED</div>'
+        :'<div class="owner-m-amt">'+(past?'tap':'·')+'</div>'
+      )
+    +'</div>';
+  }).join('')+'</div>';
+  document.getElementById('owner-sal-months').innerHTML=monthsHtml;
+  var totalPaidLabel=fmt(ownerPaidYr)+' AED';
+  document.getElementById('owner-sal-total').textContent=totalPaidLabel;
+
+  // Studio chart — income vs non-salary expenses, past months only
+  var incM2=Array(12).fill(0),expM2=Array(12).fill(0);
+  for(var i=0;i<12;i++){
+    if(isPast(viewYear,i)){incM2[i]=incM[i];expM2[i]=expNonSalM[i];}
+  }
+  if(repC)repC.destroy();
+  repC=new Chart(document.getElementById('repChart'),{type:'bar',data:{labels:MS,datasets:[
+    {label:'Доходы',data:incM2,backgroundColor:'rgba(105,124,112,0.7)',borderRadius:5,borderSkipped:false},
+    {label:'Expenses',data:expM2,backgroundColor:'rgba(184,92,92,0.55)',borderRadius:5,borderSkipped:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+    x:{ticks:{color:'rgba(45,53,54,0.35)',font:{size:10,family:'JetBrains Mono'}},grid:{display:false},border:{display:false}},
+    y:{ticks:{color:'rgba(45,53,54,0.35)',font:{size:10,family:'JetBrains Mono'},callback:function(v){return fmt(v);}},grid:{color:'rgba(45,53,54,0.06)'},border:{display:false}}
+  }}});
+
+  // Projects summary
+  document.getElementById('rep-projs').innerHTML=db.projects.length?db.projects.map(function(p){
+    var inc=projInc(p),expNS=projExpNonSalary(p),expS=projExpSalary(p),pr=projProfit(p);
+    var sc=p.status==='active'?'pill-moss':p.status==='completed'?'pill-mist':'pill-sage';
+    var st=p.status==='active'?'Active':p.status==='completed'?'Done':'Paused';
+    return '<div class="tx">'
+      +'<div class="tx-body">'
+        +'<div class="tx-name">'+p.name+'</div>'
+        +'<div class="tx-sub">'+p.client+' · <span class="pill '+sc+'" style="font-size:9px;padding:1px 6px">'+st+'</span>'
+          +' · exp.'+fmt(expNS)+(expS?' · staff.'+fmt(expS):'')+'</div>'
+      +'</div>'
+      +'<div class="tx-right"><div class="tx-amt '+(pr>=0?'i':'e')+'">'+(pr>=0?'+':'')+fmtS(pr)+' AED</div></div>'
+    +'</div>';
+  }).join(''):'<div class="empty">Нет проектов</div>';
+
+  // Price list
+  var priceRows=DEFAULT_SVCS.map(function(s){
+    return '<div class="info-row"><span class="info-svc-name">'+s.name+'</span><span class="info-svc-price">'+s.pricePerSqm+' AED/м²</span></div>';
+  }).join('');
+  var allSvcs={};
+  db.projects.forEach(function(p){(p.services||[]).forEach(function(s){if(s.on){if(!allSvcs[s.id]||allSvcs[s.id]<s.pricePerSqm)allSvcs[s.id]=s.pricePerSqm;}});});
+  var actualRows=Object.keys(allSvcs).map(function(k){var sv=DEFAULT_SVCS.find(function(s){return s.id===k;})||{name:k};return '<div class="info-row"><span class="info-svc-name">'+sv.name+'</span><span class="info-svc-price">'+allSvcs[k]+' AED/м²</span></div>';}).join('');
+  document.getElementById('rep-price-list').innerHTML=
+    '<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Стандартный прайс</div>'
+    +priceRows
+    +(Object.keys(allSvcs).length?'<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin:12px 0 8px;padding-top:12px;border-top:1px solid var(--border)">Фактически в проектах (макс.)</div>'+actualRows:'');
+}
+
+/* MODALS */
+function openMod(id){document.getElementById(id).classList.add('open');}
+function closeMod(id){document.getElementById(id).classList.remove('open');}
+function overlayClick(e,id){if(e.target===document.getElementById(id))closeMod(id);}
+
+function openEditProjModal(id){
+  editProjId=id;var p=gp(id);
+  document.getElementById('ep-name').value=p.name||'';document.getElementById('ep-client').value=p.client||'';document.getElementById('ep-area').value=p.area||'';document.getElementById('ep-status').value=p.status||'active';document.getElementById('ep-start').value=p.start||'';document.getElementById('ep-deadline').value=p.deadline||'';document.getElementById('ep-note').value=p.note||'';
+  tmpEditSvcs=cloneSvcs(p.services||DEFAULT_SVCS);renderSvcForm('edit-svc-list',tmpEditSvcs);
+  openMod('m-edit-proj');
+}
+function saveEditProj(){
+  var p=gp(editProjId);if(!p)return;
+  p.name=document.getElementById('ep-name').value.trim()||p.name;p.client=document.getElementById('ep-client').value.trim()||'—';p.area=parseFloat(document.getElementById('ep-area').value)||0;p.status=document.getElementById('ep-status').value;p.start=document.getElementById('ep-start').value;p.deadline=document.getElementById('ep-deadline').value;p.note=document.getElementById('ep-note').value.trim();
+  if(tmpEditSvcs)p.services=cloneSvcs(tmpEditSvcs);
+  save();closeMod('m-edit-proj');if(curScreen==='proj-detail')renderProjDetail();else renderProjects();
+}
+function deleteProjConfirm(){
+  if(!confirm('Удалить проект?'))return;
+  db.projects=db.projects.filter(function(p){return p.id!==editProjId;});
+  save();closeMod('m-edit-proj');closeProject();
+}
+
+function toggleSalaryField(){
+  var t=document.getElementById('emp-type').value;
+  var isStaff=t!=='freelance';
+  document.getElementById('emp-salary-wrap').style.display=isStaff?'flex':'none';
+  document.getElementById('emp-payday-row').style.display=isStaff?'grid':'none';
+}
+function previewEmpPhoto(input){
+  if(!input.files||!input.files[0])return;
+  var file=input.files[0];
+  if(file.size>2*1024*1024){alert('Фото не более 2 МБ');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var prev=document.getElementById('emp-photo-preview');
+    prev.innerHTML='<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px">';
+    prev.dataset.photo=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function openAddEmpModal(){
+  editEmpId=null;
+  document.getElementById('m-emp-ttl').textContent='Добавить сотрудника';
+  document.getElementById('emp-del-btn').style.display='none';
+  ['emp-name','emp-role','emp-loc','emp-salary','emp-payday','emp-end'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('emp-start').value=db.workPeriodStart||'2026-02-15';
+  document.getElementById('emp-type').value='staff';
+  var prev=document.getElementById('emp-photo-preview');
+  prev.innerHTML='<span style="font-size:22px">📷</span><span style="font-size:9px;color:var(--text3);margin-top:2px;font-weight:600">ФОТО</span>';
+  prev.dataset.photo='';
+  toggleSalaryField();
+  openMod('m-emp');
+}
+function openEditEmpModal(id){
+  editEmpId=id;var e=ge(id);
+  document.getElementById('m-emp-ttl').textContent='Редактировать';
+  document.getElementById('emp-del-btn').style.display='block';
+  document.getElementById('emp-name').value=e.name||'';
+  document.getElementById('emp-role').value=e.role||'';
+  document.getElementById('emp-loc').value=e.loc||'';
+  document.getElementById('emp-salary').value=e.salary||'';
+  document.getElementById('emp-payday').value=e.payday||'';
+  document.getElementById('emp-start').value=e.start||'';
+  document.getElementById('emp-end').value=e.end||'';
+  document.getElementById('emp-type').value=e.type||'staff';
+  var prev=document.getElementById('emp-photo-preview');
+  if(e.photo){
+    prev.innerHTML='<img src="'+e.photo+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px">';
+    prev.dataset.photo=e.photo;
+  } else {
+    prev.innerHTML='<span style="font-size:22px">📷</span><span style="font-size:9px;color:var(--text3);margin-top:2px;font-weight:600">ФОТО</span>';
+    prev.dataset.photo='';
+  }
+  toggleSalaryField();
+  openMod('m-emp');
+}
+function saveEmployee(){
+  var nm=document.getElementById('emp-name').value.trim();if(!nm)return;
+  var t=document.getElementById('emp-type').value;
+  var photo=document.getElementById('emp-photo-preview').dataset.photo||'';
+  var data={
+    name:nm,
+    role:document.getElementById('emp-role').value.trim()||'—',
+    loc:document.getElementById('emp-loc').value.trim(),
+    type:t,
+    salary:t!=='freelance'?(parseFloat(document.getElementById('emp-salary').value)||0):0,
+    payday:t!=='freelance'?(parseInt(document.getElementById('emp-payday').value)||1):0,
+    start:document.getElementById('emp-start').value||TODAY_STR,
+    end:document.getElementById('emp-end').value||'',
+    photo:photo
+  };
+  if(editEmpId){Object.assign(ge(editEmpId),data);}
+  else{data.id=db.nid++;db.team.push(data);}
+  save();closeMod('m-emp');renderSalary();
+}
+function deleteEmployee(){if(!confirm('Удалить сотрудника?'))return;db.team=db.team.filter(function(e){return e.id!==editEmpId;});save();closeMod('m-emp');renderSalary();}
+function openWorkPeriodModal(){document.getElementById('wp-start-input').value=db.workPeriodStart||'2026-02-15';openMod('m-wp');}
+function saveWorkPeriod(){db.workPeriodStart=document.getElementById('wp-start-input').value||'2026-02-15';SAL_START=new Date(db.workPeriodStart);save();closeMod('m-wp');renderSalary();}
+
+function buildExpCats(){return db.team.map(function(e){return 'Сотрудники';}).slice(0,1).concat(['Models & Textures','Софт & Подписки','Other']);}
+function updateExpCatSel(){var sel=document.getElementById('me-cat');if(!sel)return;sel.innerHTML=['Models & Textures','Софт & Подписки','Сотрудники','Other'].map(function(c){return '<option>'+c+'</option>';}).join('');}
+
+function saveIncome(){var amt=parseFloat(document.getElementById('mi-amount').value);if(!amt)return;gp(curProjId).income.push({id:db.nid++,date:document.getElementById('mi-date').value||TODAY_STR,desc:document.getElementById('mi-desc').value||'Оплата',amount:amt});save();closeMod('m-add-inc');document.getElementById('mi-amount').value='';document.getElementById('mi-desc').value='';renderProjDetail();}
+function saveExpense(){var amt=parseFloat(document.getElementById('me-amount').value);if(!amt)return;gp(curProjId).expenses.push({id:db.nid++,date:document.getElementById('me-date').value||TODAY_STR,cat:document.getElementById('me-cat').value,desc:document.getElementById('me-desc').value||'—',amount:amt,paid:true});save();closeMod('m-add-exp');document.getElementById('me-amount').value='';document.getElementById('me-desc').value='';renderProjDetail();}
+function saveAdj(){var amt=parseFloat(document.getElementById('ma-amount').value);if(!amt)return;gp(curProjId).adjustments.push({id:db.nid++,date:document.getElementById('ma-date').value||TODAY_STR,sign:parseInt(document.getElementById('ma-type').value),note:document.getElementById('ma-note').value||'Корректировка',amount:amt});save();closeMod('m-add-adj');document.getElementById('ma-amount').value='';document.getElementById('ma-note').value='';renderProjDetail();}
+function saveLink(){var url=document.getElementById('ml-url').value.trim();if(!url)return;gp(curProjId).links.push({id:db.nid++,label:document.getElementById('ml-label').value.trim()||url,url:url});save();closeMod('m-add-lnk');document.getElementById('ml-url').value='';document.getElementById('ml-label').value='';renderProjDetail();}
+function delInc(id){var p=gp(curProjId);p.income=p.income.filter(function(r){return r.id!==id;});save();renderProjDetail();}
+function delExp(id){var p=gp(curProjId);p.expenses=p.expenses.filter(function(r){return r.id!==id;});save();renderProjDetail();}
+function delAdj(id){var p=gp(curProjId);p.adjustments=p.adjustments.filter(function(r){return r.id!==id;});save();renderProjDetail();}
+function delLink(id){var p=gp(curProjId);p.links=p.links.filter(function(r){return r.id!==id;});save();renderProjDetail();}
+
+function importJSON(){
+  try{
+    var raw = document.getElementById('import-json').value;
+    // Remove BOM, control chars, trim whitespace
+    raw = raw.replace(/^\uFEFF/,'').replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g,'').trim();
+    // Sometimes Sheets wraps in extra quotes — unwrap
+    if(raw.charAt(0)==='"' && raw.charAt(raw.length-1)==='"'){
+      raw = raw.slice(1,-1).replace(/\\"/g,'"').replace(/\\\\/g,'\\');
+    }
+    var parsed = JSON.parse(raw);
+    if(!parsed.projects) throw new Error('Invalid format — missing projects');
+    db = parsed;
+    localStorage.setItem('mmv4', JSON.stringify(db));
+    closeMod('m-import');
+    document.getElementById('import-json').value='';
+    render();
+    showToast('✓ Data imported successfully!');
+  }catch(e){
+    showToast('✗ Invalid JSON: ' + e.message);
+  }
+}
+
+/* INIT */
+document.getElementById('yr-lbl').textContent=viewYear;
+['mi-date','me-date','ma-date','ms-date'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=TODAY_STR;});
+updateExpCatSel();tmpNewSvcs=cloneSvcs(DEFAULT_SVCS);
+// Auto-sync from Sheets on load
+if(SHEETS_URL){
+  setSyncStatus('loading');
+  loadFromSheets(function(ok){
+    if(ok){
+      render();
+      showToast('✓ Synced from Google Sheets');
+    } else {
+      // Sheets empty or error — push local data up
+      syncToSheets();
+    }
+  });
+} else {
+  setSyncStatus('idle');
+}
+
+// Show recovery banner if only demo data (no real saves yet after migration)
+function checkShowRecovery(){
+  var allKeys=Object.keys(localStorage);
+  var oldKeys=allKeys.filter(function(k){return k!=='mmv4'&&(k.startsWith('mm')||k.startsWith('sfin')||k.startsWith('findb'));});
+  if(oldKeys.length>0 && db.projects.length<=3){
+    var banner=document.createElement('div');
+    banner.id='recovery-banner';
+    banner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:999;background:var(--moss);color:var(--plaster);padding:12px 16px;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:10px;';
+    banner.innerHTML='<span>Legacy data found: <b>'+oldKeys.join(', ')+'</b></span>'
+      +'<button onclick="recoverData(\''+oldKeys[0]+'\')" style="background:var(--plaster);color:var(--moss);border:none;border-radius:8px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:12px;white-space:nowrap">Restore</button>';
+    document.body.appendChild(banner);
+  }
+}
+function recoverData(key){
+  try{
+    var raw=localStorage.getItem(key);
+    if(!raw){alert('Key '+key+' is empty');return;}
+    var old=JSON.parse(raw);
+    if(!old){alert('Data corrupted');return;}
+    if(old.salary&&!old.team){
+      old.team=[
+        {id:1,name:'Visualizer',role:'3D & Renders',loc:'',salary:old.salary.viz||8000,payday:1,start:old.workPeriodStart||'2026-02-15',end:''},
+        {id:2,name:'Draftsman',role:'CAD & Drawings',loc:'',salary:old.salary.drft||5000,payday:1,start:old.workPeriodStart||'2026-02-15',end:''}
+      ];
+    }
+    if(old.projects){
+      old.projects.forEach(function(p){
+        if(!p.services)p.services=[{id:'plan',name:'Floor Plan',pricePerSqm:15,on:false},{id:'viz',name:'Visualization',pricePerSqm:45,on:false},{id:'draw',name:'Drawings',pricePerSqm:30,on:false},{id:'kit',name:'Fit-out',pricePerSqm:20,on:false}];
+        if(!p.income)p.income=[];if(!p.expenses)p.expenses=[];if(!p.adjustments)p.adjustments=[];if(!p.links)p.links=[];
+        p.expenses.forEach(function(e){if(e.paid===undefined)e.paid=true;});
+      });
+    }
+    localStorage.setItem('mmv4',JSON.stringify(old));
+    db=old;
+    var b=document.getElementById('recovery-banner');if(b)b.remove();
+    alert('Data restored! Projects found: '+(old.projects?old.projects.length:0));
+    render();
+  }catch(e){alert('Error: '+e.message);}
+}
+// Show all stored keys in console for debugging
+console.log('LocalStorage keys:', Object.keys(localStorage));
+checkShowRecovery();
+renderDash();
+
+</script>
+<!-- Month Salary Modal -->
+<div class="modal-bg" id="m-month-sal" onclick="overlayClick(event,'m-month-sal')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Зарплата — <span id="month-sal-lbl"></span></span><button class="modal-x" onclick="closeMod('m-month-sal')">✕</button></div>
+  <div class="modal-hint">Enter salary paid this month. Shown in the cell.</div>
+  <input type="hidden" id="month-sal-y"><input type="hidden" id="month-sal-m">
+  <div class="mfrow full"><div class="fl"><label>Paid (AED)</label><input type="number" id="month-sal-input" inputmode="decimal" placeholder="0"></div></div>
+  <button class="modal-save" onclick="saveMonthSal()">Save</button>
+  <button class="modal-del" onclick="document.getElementById('month-sal-input').value=0;saveMonthSal()">Clear</button>
+</div>
+</div>
+
+
+<!-- SYNC MODAL -->
+<div class="modal-bg" id="m-sync" onclick="overlayClick(event,'m-sync')">
+<div class="modal">
+  <div class="modal-hdr">
+    <span class="modal-ttl">Google Sheets Sync</span>
+    <button class="modal-x" onclick="closeMod('m-sync')">✕</button>
+  </div>
+  <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px;background:var(--surface2);border-radius:var(--rsm);padding:12px">
+    Paste your <b>Apps Script Web App URL</b> below.<br>
+    All data syncs automatically to Google Sheets.<br>
+    <span style="color:var(--moss);font-weight:600">Works across all your devices.</span>
+  </div>
+  <div class="mfrow full">
+    <div class="fl">
+      <label>Apps Script URL</label>
+      <input type="url" id="sync-url-input" placeholder="https://script.google.com/macros/s/.../exec">
+    </div>
+  </div>
+  <button class="modal-save" onclick="saveSyncUrl()">Connect & Sync</button>
+  <button onclick="forceSync();closeMod('m-sync')" style="width:100%;padding:11px;background:none;border:1px solid var(--border2);border-radius:var(--rsm);color:var(--text2);font-family:Outfit,sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-top:8px">Force Pull from Sheets</button>
+  <button onclick="testConnection()" style="width:100%;padding:11px;background:none;border:1px solid rgba(179,201,214,0.5);border-radius:var(--rsm);color:#5a7d94;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px">🔌 Test Connection</button>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+    <button onclick="exportJSON();closeMod('m-sync')" style="padding:11px;background:none;border:1px solid rgba(105,124,112,0.3);border-radius:var(--rsm);color:var(--moss);font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer">📋 Copy JSON</button>
+    <button onclick="closeMod('m-sync');openMod('m-import')" style="padding:11px;background:none;border:1px solid var(--border2);border-radius:var(--rsm);color:var(--text2);font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer">📥 Import JSON</button>
+  </div>
+  <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Setup Instructions</div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.8">
+      <b>1.</b> Go to <a href="https://sheets.new" target="_blank" style="color:var(--moss)">sheets.new</a> → name it <b>MM_Design Finance</b><br>
+      <b>2.</b> Click <b>Extensions → Apps Script</b><br>
+      <b>3.</b> Delete all code, paste the script below<br>
+      <b>4.</b> Click <b>Deploy → New deployment</b><br>
+      <b>5.</b> Type: Web app · Execute as: Me · Access: <b>Anyone</b><br>
+      <b>6.</b> Copy the URL and paste it above
+    </div>
+    <div style="margin-top:12px;background:var(--soot);border-radius:var(--rsm);padding:12px;overflow-x:auto">
+      <pre style="font-size:10px;color:#98AA9D;line-height:1.6;white-space:pre-wrap;font-family:JetBrains Mono,monospace">function doPost(e){
+  try{
+    var data=JSON.parse(e.postData?e.postData.contents:e.parameter.d);
+    saveData(data);
+    return ContentService.createTextOutput(JSON.stringify({status:'ok'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }catch(err){
+    return ContentService.createTextOutput(JSON.stringify({status:'error',msg:err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e){
+  try{
+    var cb=e.parameter.callback||'';
+    if(e.parameter.d){
+      var data=JSON.parse(decodeURIComponent(e.parameter.d));
+      saveData(data);
+      var res=JSON.stringify({status:'ok'});
+      return ContentService.createTextOutput(cb?cb+'('+res+')':res)
+        .setMimeType(cb?ContentService.MimeType.JAVASCRIPT:ContentService.MimeType.JSON);
+    }
+    // Load raw JSON from data sheet
+    var sh=SpreadsheetApp.getActiveSpreadsheet().getSheetByName('data');
+    if(!sh||!sh.getRange(1,1).getValue()){
+      var res=JSON.stringify({status:'empty'});
+      return ContentService.createTextOutput(cb?cb+'('+res+')':res)
+        .setMimeType(cb?ContentService.MimeType.JAVASCRIPT:ContentService.MimeType.JSON);
+    }
+    var val=sh.getRange(1,1).getValue();
+    var res=JSON.stringify({status:'ok',data:JSON.parse(val)});
+    return ContentService.createTextOutput(cb?cb+'('+res+')':res)
+      .setMimeType(cb?ContentService.MimeType.JAVASCRIPT:ContentService.MimeType.JSON);
+  }catch(err){
+    var cb=e.parameter?e.parameter.callback||'':'';
+    var res=JSON.stringify({status:'error',msg:err.toString()});
+    return ContentService.createTextOutput(cb?cb+'('+res+')':res)
+      .setMimeType(cb?ContentService.MimeType.JAVASCRIPT:ContentService.MimeType.JSON);
+  }
+}
+
+function saveData(data){
+  var ss=SpreadsheetApp.getActiveSpreadsheet();
+
+  // ── Sheet: data (raw JSON backup) ──
+  var sh=ss.getSheetByName('data')||ss.insertSheet('data');
+  sh.clearContents();
+  sh.getRange(1,1).setValue(JSON.stringify(data));
+
+  // ── Sheet: Projects ──
+  var ps=ss.getSheetByName('Projects')||ss.insertSheet('Projects');
+  ps.clearContents();
+  ps.getRange(1,1,1,9).setValues([['Name','Client','Status','Area m²','Budget (AED)','Start','Deadline','Total Income','Total Expenses']]);
+  ps.getRange(1,1,1,9).setFontWeight('bold').setBackground('#697C70').setFontColor('#F2EFE2');
+  var projs=data.projects||[];
+  projs.forEach(function(p,i){
+    var inc=(p.income||[]).reduce(function(s,r){return s+r.amount;},0);
+    var exp=(p.expenses||[]).filter(function(r){return r.paid!==false;}).reduce(function(s,r){return s+r.amount;},0);
+    ps.getRange(i+2,1,1,9).setValues([[
+      p.name||'',p.client||'',p.status||'',p.area||0,
+      (p.services||[]).filter(function(s){return s.on;}).reduce(function(sum,s){return sum+s.pricePerSqm*(p.area||0);},0),
+      p.start||'',p.deadline||'',inc,exp
+    ]]);
+  });
+  ps.autoResizeColumns(1,9);
+
+  // ── Sheet: Income ──
+  var is=ss.getSheetByName('Income')||ss.insertSheet('Income');
+  is.clearContents();
+  is.getRange(1,1,1,4).setValues([['Date','Project','Description','Amount (AED)']]);
+  is.getRange(1,1,1,4).setFontWeight('bold').setBackground('#4CAF79').setFontColor('#fff');
+  var row=2;
+  projs.forEach(function(p){
+    (p.income||[]).forEach(function(r){
+      is.getRange(row++,1,1,4).setValues([[r.date||'',p.name||'',r.desc||'',r.amount||0]]);
+    });
+  });
+  if(row>2) is.autoResizeColumns(1,4);
+
+  // ── Sheet: Expenses ──
+  var es=ss.getSheetByName('Expenses')||ss.insertSheet('Expenses');
+  es.clearContents();
+  es.getRange(1,1,1,5).setValues([['Date','Project','Category','Description','Amount (AED)']]);
+  es.getRange(1,1,1,5).setFontWeight('bold').setBackground('#B85C5C').setFontColor('#fff');
+  var row2=2;
+  projs.forEach(function(p){
+    (p.expenses||[]).filter(function(r){return r.paid!==false;}).forEach(function(r){
+      es.getRange(row2++,1,1,5).setValues([[r.date||'',p.name||'',r.cat||'',r.desc||'',r.amount||0]]);
+    });
+  });
+  if(row2>2) es.autoResizeColumns(1,5);
+
+  // ── Sheet: Team ──
+  var ts=ss.getSheetByName('Team')||ss.insertSheet('Team');
+  ts.clearContents();
+  ts.getRange(1,1,1,6).setValues([['Name','Role','Location','Type','Salary (AED/mo)','Start Date']]);
+  ts.getRange(1,1,1,6).setFontWeight('bold').setBackground('#697C70').setFontColor('#F2EFE2');
+  (data.team||[]).forEach(function(e,i){
+    ts.getRange(i+2,1,1,6).setValues([[e.name||'',e.role||'',e.loc||'',e.type||'staff',e.salary||0,e.start||'']]);
+  });
+  ts.autoResizeColumns(1,6);
+}</pre>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Import JSON Modal -->
+<div class="modal-bg" id="m-import" onclick="overlayClick(event,'m-import')">
+<div class="modal">
+  <div class="modal-hdr"><span class="modal-ttl">Import JSON</span><button class="modal-x" onclick="closeMod('m-import')">✕</button></div>
+  <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6;background:var(--surface2);border-radius:var(--rsm);padding:10px 12px">
+    Paste the JSON from Google Sheets cell A1 (data sheet) to restore your data.
+  </div>
+  <div class="mfrow full">
+    <div class="fl"><label>JSON Data</label>
+      <textarea id="import-json" style="min-height:120px;font-family:JetBrains Mono,monospace;font-size:11px" placeholder='{"projects":[...],"team":[...]}'></textarea>
+    </div>
+  </div>
+  <button class="modal-save" onclick="importJSON()">Import & Apply</button>
+</div>
+</div>
+</body>
+</html>
